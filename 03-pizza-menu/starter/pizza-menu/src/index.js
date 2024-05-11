@@ -69,11 +69,36 @@ function Menu(props) {
 	return (
 		<main className='menu'>
 			<h2>Our Menu</h2>
-			<Pizza />
-			<Pizza />
-			<Pizza />
-			<Pizza />
+			<Pizza
+				pizzaName='Pizza Spinaci'
+				pizzaIngredients='Tomato, mozarella, spinach, and ricotta cheese'
+				pizzaImage='pizzas/spinaci.jpg'
+				pizzaPrice='10'
+			/>
+
+			<Pizza
+				pizzaName='Pizza Funghi'
+				pizzaIngredients='Tomato, mozarella, mushrooms, and onion'
+				pizzaImage='pizzas/funghi.jpg'
+				pizzaPrice='12'
+			/>
 		</main>
+	);
+}
+
+function Pizza(props) {
+	const { pizzaName, pizzaIngredients, pizzaImage, pizzaPrice } = props;
+
+	return (
+		<div className='pizza'>
+			<img
+				src={pizzaImage}
+				alt={pizzaName}
+			/>
+			<h3>{pizzaName}</h3>
+			<p>{pizzaIngredients}</p>
+			<span>{pizzaPrice}</span>
+		</div>
 	);
 }
 
@@ -88,19 +113,6 @@ function Footer(props) {
 		<footer className='footer'>
 			{new Date().toDateString()} We're currently open
 		</footer>
-	);
-}
-
-function Pizza(props) {
-	return (
-		<div>
-			<img
-				src='pizzas/spinaci.jpg'
-				alt='Pizza Spinaci'
-			/>
-			<h3>Pizza Spinaci</h3>
-			<p>Tomato, mozarella, spinach, and ricotta cheese</p>
-		</div>
 	);
 }
 
