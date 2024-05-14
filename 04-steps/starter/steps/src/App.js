@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 const messages = [
 	'Learn React ⚛️',
 	'Apply for jobs 💼',
@@ -5,14 +7,18 @@ const messages = [
 ];
 
 export default function App(props) {
-	const stepNumber = 3;
+	const [stepNumber, setStepNumber] = useState(1);
 
 	const handleButtonPrevious = () => {
-		alert('Previous');
+		setStepNumber((currentStepNumber) =>
+			currentStepNumber === 1 ? 1 : currentStepNumber - 1
+		);
 	};
 
 	const handleButtonNext = () => {
-		alert('Next');
+		setStepNumber((currentStepNumber) =>
+			currentStepNumber === 3 ? 3 : currentStepNumber + 1
+		);
 	};
 
 	return (
