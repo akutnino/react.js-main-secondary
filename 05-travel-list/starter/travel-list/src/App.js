@@ -35,10 +35,32 @@ function Logo(props) {
 }
 
 function Form(props) {
+	const handleSubmit = (event) => {
+		event.preventDefault();
+	};
+
 	return (
-		<div className='add-form'>
+		<form
+			className='add-form'
+			onSubmit={handleSubmit}
+		>
 			<h3>What do you need for your 😍 trip?</h3>
-		</div>
+			<select>
+				{Array.from(Array(10), (val, index) => index + 1).map((value) => (
+					<option
+						value={value}
+						key={value}
+					>
+						{value}
+					</option>
+				))}
+			</select>
+			<input
+				type='text'
+				placeholder='Item...'
+			/>
+			<button>Add</button>
+		</form>
 	);
 }
 
