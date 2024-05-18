@@ -110,8 +110,24 @@ function ListItem(props) {
 			);
 	};
 
+	const handleToggleItem = (id) => {
+		return () =>
+			setItemsArray((currentItemsArray) =>
+				currentItemsArray.map((itemObject) =>
+					itemObject.id === id
+						? { ...itemObject, packed: !itemObject.packed }
+						: itemObject
+				)
+			);
+	};
+
 	return (
 		<li>
+			<input
+				type='checkbox'
+				value={itemObject.packed}
+				onChange={handleToggleItem(itemObject.id)}
+			/>
 			<span style={itemObject.packed ? { textDecoration: 'line-through' } : {}}>
 				{itemObject.quantity} {itemObject.description}
 			</span>
