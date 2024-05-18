@@ -39,6 +39,7 @@ function Logo(props) {
 function Form(props) {
 	const [itemQuantity, setItemQuantity] = useState(1);
 	const [itemDescription, setItemDescription] = useState('');
+	const [items, setItems] = useState([]);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
