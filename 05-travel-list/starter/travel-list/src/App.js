@@ -1,32 +1,16 @@
 import { useState } from 'react';
 
-const initialItems = [
-	{
-		id: 1,
-		description: 'Passports',
-		quantity: 2,
-		packed: false
-	},
-	{
-		id: 2,
-		description: 'Socks',
-		quantity: 12,
-		packed: false
-	},
-	{
-		id: 3,
-		description: 'Phone',
-		quantity: 1,
-		packed: true
-	}
-];
-
 export default function App(props) {
+	const [itemsArray, setItemsArray] = useState([]);
+
 	return (
 		<div className='app'>
 			<Logo />
-			<Form />
-			<PackingList />
+			<Form
+				itemsArray={itemsArray}
+				setItemsArray={setItemsArray}
+			/>
+			<PackingList itemsArray={itemsArray} />
 			<Stats />
 		</div>
 	);
@@ -37,22 +21,23 @@ function Logo(props) {
 }
 
 function Form(props) {
+	const { itemsArray, setItemsArray } = props;
 	const [itemQuantity, setItemQuantity] = useState(1);
 	const [itemDescription, setItemDescription] = useState('');
-	const [items, setItems] = useState([]);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
 		if (itemDescription === '') return;
 
-		console.log({
-			id: (initialItems.length += 1),
+		const newItemObject = {
+			id: itemsArray.length,
 			description: itemDescription,
 			quantity: itemQuantity,
 			packed: false
-		});
+		};
 
+		setItemsArray((currentItemsArray) => [...currentItemsArray, newItemObject]);
 		setItemQuantity(1);
 		setItemDescription('');
 	};
@@ -96,10 +81,12 @@ function Form(props) {
 }
 
 function PackingList(props) {
+	const { itemsArray } = props;
+
 	return (
 		<div className='list'>
 			<ul>
-				{initialItems.map((itemObject) => (
+				{itemsArray.map((itemObject) => (
 					<ListItem
 						itemObject={itemObject}
 						key={itemObject.id}
