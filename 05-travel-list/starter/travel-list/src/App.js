@@ -6,11 +6,11 @@ export default function App(props) {
 	return (
 		<div className='app'>
 			<Logo />
-			<Form
+			<Form setItemsArray={setItemsArray} />
+			<PackingList
 				itemsArray={itemsArray}
 				setItemsArray={setItemsArray}
 			/>
-			<PackingList itemsArray={itemsArray} />
 			<Stats />
 		</div>
 	);
@@ -21,7 +21,7 @@ function Logo(props) {
 }
 
 function Form(props) {
-	const { itemsArray, setItemsArray } = props;
+	const { setItemsArray } = props;
 	const [itemQuantity, setItemQuantity] = useState(1);
 	const [itemDescription, setItemDescription] = useState('');
 
@@ -31,7 +31,7 @@ function Form(props) {
 		if (itemDescription === '') return;
 
 		const newItemObject = {
-			id: itemsArray.length,
+			id: Date.now(),
 			description: itemDescription,
 			quantity: itemQuantity,
 			packed: false
@@ -81,7 +81,7 @@ function Form(props) {
 }
 
 function PackingList(props) {
-	const { itemsArray } = props;
+	const { itemsArray, setItemsArray } = props;
 
 	return (
 		<div className='list'>
@@ -89,6 +89,7 @@ function PackingList(props) {
 				{itemsArray.map((itemObject) => (
 					<ListItem
 						itemObject={itemObject}
+						setItemsArray={setItemsArray}
 						key={itemObject.id}
 					/>
 				))}
@@ -98,14 +99,23 @@ function PackingList(props) {
 }
 
 function ListItem(props) {
-	const { itemObject } = props;
+	const { itemObject, setItemsArray } = props;
+
+	const handleDeleteItem = (id) => {
+		return () =>
+			setItemsArray((currentItemsArray) =>
+				currentItemsArray.filter((itemObject) =>
+					itemObject.id === id ? false : true
+				)
+			);
+	};
 
 	return (
 		<li>
 			<span style={itemObject.packed ? { textDecoration: 'line-through' } : {}}>
 				{itemObject.quantity} {itemObject.description}
 			</span>
-			<button>❌</button>
+			<button onClick={handleDeleteItem(itemObject.id)}>❌</button>
 		</li>
 	);
 }
