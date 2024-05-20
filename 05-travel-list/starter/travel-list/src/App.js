@@ -11,7 +11,7 @@ export default function App(props) {
 				itemsArray={itemsArray}
 				setItemsArray={setItemsArray}
 			/>
-			<Stats />
+			<Stats itemsArray={itemsArray} />
 		</div>
 	);
 }
@@ -137,9 +137,22 @@ function ListItem(props) {
 }
 
 function Stats(props) {
+	const { itemsArray } = props;
+	const totalItems = itemsArray.length;
+	const totalItemsPacked = itemsArray.filter((itemObject) =>
+		itemObject.packed ? true : false
+	).length;
+	const percentage = Number((totalItemsPacked / totalItems) * 100).toFixed(0);
+	const packedItemsPercentage = percentage === 'NaN' ? 0 : Number(percentage);
+
 	return (
 		<footer className='stats'>
-			<em>💼 You have X items on your list, and you already packed X (X%)</em>
+			<em>
+				{packedItemsPercentage === 100
+					? `You are raedy to Go!`
+					: `💼 You have ${totalItems} items on your list, 
+							and you already packed ${totalItemsPacked} (${packedItemsPercentage}%)`}
+			</em>
 		</footer>
 	);
 }
