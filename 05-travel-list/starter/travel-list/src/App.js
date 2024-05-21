@@ -105,6 +105,10 @@ function PackingList(props) {
 			);
 	};
 
+	const handleClearList = () => {
+		if (window.confirm('Clear the List?')) setItemsArray([]);
+	};
+
 	return (
 		<div className='list'>
 			<ul>
@@ -126,6 +130,7 @@ function PackingList(props) {
 					<option value='description'>Sort by description</option>
 					<option value='packed'>Sort by packed status</option>
 				</select>
+				<button onClick={handleClearList}>Clear List</button>
 			</div>
 		</div>
 	);
