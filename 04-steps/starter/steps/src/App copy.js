@@ -48,34 +48,21 @@ export default function App(props) {
 					</p>
 
 					<div className='buttons'>
-						<Button
+						<button
 							style={{ backgroundColor: '#7950f2', color: '#fff' }}
 							onClick={handleButtonPrevious}
 						>
-							<span>👈</span> Previous
-						</Button>
-						<Button
+							Previous
+						</button>
+						<button
 							style={{ backgroundColor: '#7950f2', color: '#fff' }}
 							onClick={handleButtonNext}
 						>
-							Next <span>👉</span>
-						</Button>
+							Next
+						</button>
 					</div>
 				</div>
 			)}
 		</>
-	);
-}
-
-function Button(props) {
-	const { style, onClick, children } = props;
-
-	return (
-		<button
-			style={style}
-			onClick={onClick}
-		>
-			{children}
-		</button>
 	);
 }
