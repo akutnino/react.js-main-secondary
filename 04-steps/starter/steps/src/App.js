@@ -43,9 +43,9 @@ export default function App(props) {
 						<div className={stepNumber >= 3 ? 'active' : ''}>3</div>
 					</div>
 
-					<p className='message'>
+					<StepMessage className='message'>
 						Step {stepNumber} : {messages[stepNumber - 1]}
-					</p>
+					</StepMessage>
 
 					<div className='buttons'>
 						<Button
@@ -65,6 +65,12 @@ export default function App(props) {
 			)}
 		</>
 	);
+}
+
+function StepMessage(props) {
+	const { className, children } = props;
+
+	return <div className={className}>{children}</div>;
 }
 
 function Button(props) {
