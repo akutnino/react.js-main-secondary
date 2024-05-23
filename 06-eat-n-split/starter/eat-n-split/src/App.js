@@ -24,6 +24,8 @@ export default function App(props) {
 		<div className='app'>
 			<div className='sidebar'>
 				<FriendsList />
+				<FormAddFriend />
+				<Button>Add Friend</Button>
 			</div>
 		</div>
 	);
@@ -73,7 +75,27 @@ function FriendItem(props) {
 
 			{YOU_AND_FRIEND_EQUAL && <p>You and {friendObject.name} are even</p>}
 
-			<button className='button'>Select</button>
+			<Button>Select</Button>
 		</li>
+	);
+}
+
+function Button(props) {
+	const { children } = props;
+
+	return <button className='button'>{children}</button>;
+}
+
+function FormAddFriend(props) {
+	return (
+		<form className='form-add-friend'>
+			<label>🧑‍🤝‍👩 Friend name</label>
+			<input type='text' />
+
+			<label>📷 Image URL</label>
+			<input type='text' />
+
+			<Button>Add</Button>
+		</form>
 	);
 }
