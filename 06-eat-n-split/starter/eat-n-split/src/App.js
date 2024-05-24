@@ -193,25 +193,58 @@ function FormAddFriend(props) {
 
 function FormSplitBill(props) {
 	const { selectedFriendItem } = props;
+	const [billValue, setBillValue] = useState(0);
+	const [userExpense, setUserExpense] = useState(0);
+	const [billPayer, setBillPayer] = useState('user');
+	const friendExpense = billValue - userExpense;
+
+	const handleSplitBill = () => {};
+
+	const handleBillValue = (event) => {
+		setBillValue(event.target.value);
+	};
+
+	const handleUserExpense = (event) => {
+		setUserExpense(event.target.value);
+	};
+
+	const handleBillPayer = (event) => {
+		setBillPayer(event.target.value);
+	};
 
 	return (
-		<form className='form-split-bill'>
+		<form
+			className='form-split-bill'
+			onSubmit={handleSplitBill}
+		>
 			<h2>Split a bill with {selectedFriendItem?.name}</h2>
 
 			<label>💰 Bill value</label>
-			<input type='number' />
+			<input
+				type='number'
+				onChange={handleBillValue}
+				value={billValue}
+			/>
 
 			<label>🧍‍♂️ Your expense</label>
-			<input type='number' />
+			<input
+				type='number'
+				onChange={handleUserExpense}
+				value={userExpense}
+			/>
 
 			<label>🧑‍🤝‍👩 {selectedFriendItem?.name}'s expense</label>
 			<input
 				type='number'
+				value={friendExpense}
 				disabled
 			/>
 
 			<label>🤑 Who is paying the bill</label>
-			<select>
+			<select
+				onChange={handleBillPayer}
+				value={billPayer}
+			>
 				<option value='user'>You</option>
 				<option value='friend'>{selectedFriendItem?.name}</option>
 			</select>
