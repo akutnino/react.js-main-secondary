@@ -234,7 +234,9 @@ function FormSplitBill(props) {
 	};
 
 	const handleBillValue = (event) => {
-		setBillValue(Number(event.target.value));
+		setBillValue(
+			Number(event.target.value) > 0 ? Number(event.target.value) : 0
+		);
 	};
 
 	const handleUserExpense = (event) => {
