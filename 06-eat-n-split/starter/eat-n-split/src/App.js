@@ -52,7 +52,11 @@ export default function App(props) {
 			</div>
 
 			{selectedFriendItem && (
-				<FormSplitBill selectedFriendItem={selectedFriendItem} />
+				<FormSplitBill
+					selectedFriendItem={selectedFriendItem}
+					setFriendsArray={setFriendsArray}
+					setSelectedFriendItem={setSelectedFriendItem}
+				/>
 			)}
 		</div>
 	);
@@ -192,20 +196,47 @@ function FormAddFriend(props) {
 }
 
 function FormSplitBill(props) {
-	const { selectedFriendItem } = props;
+	const { selectedFriendItem, setFriendsArray, setSelectedFriendItem } = props;
 	const [billValue, setBillValue] = useState(0);
 	const [userExpense, setUserExpense] = useState(0);
 	const [billPayer, setBillPayer] = useState('user');
 	const friendExpense = billValue - userExpense;
 
-	const handleSplitBill = () => {};
+	const handleSplitBill = (event) => {
+		event.preventDefault();
+
+		if (billPayer === 'user') {
+			setFriendsArray((currentFriendsArray) =>
+				currentFriendsArray.map((friendObject) =>
+					friendObject.id === selectedFriendItem?.id
+						? { ...friendObject, balance: friendObject.balance + friendExpense }
+						: friendObject
+				)
+			);
+		}
+
+		if (billPayer === 'friend') {
+			setFriendsArray((currentFriendsArray) =>
+				currentFriendsArray.map((friendObject) =>
+					friendObject.id === selectedFriendItem?.id
+						? { ...friendObject, balance: friendObject.balance - userExpense }
+						: friendObject
+				)
+			);
+		}
+
+		setBillValue(0);
+		setUserExpense(0);
+		setBillPayer('user');
+		setSelectedFriendItem(null);
+	};
 
 	const handleBillValue = (event) => {
-		setBillValue(event.target.value);
+		setBillValue(Number(event.target.value));
 	};
 
 	const handleUserExpense = (event) => {
-		setUserExpense(event.target.value);
+		setUserExpense(Number(event.target.value));
 	};
 
 	const handleBillPayer = (event) => {
