@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 const initialFriends = [
 	{
 		id: 118836,
@@ -20,12 +22,22 @@ const initialFriends = [
 ];
 
 export default function App(props) {
+	const [isFormAddFriendOpen, setIsFormAddFriendOpen] = useState(false);
+
+	const handleAddFriend = () => {
+		setIsFormAddFriendOpen((currentState) => !currentState);
+	};
+
 	return (
 		<div className='app'>
 			<div className='sidebar'>
 				<FriendsList />
-				<FormAddFriend />
-				<Button>Add Friend</Button>
+
+				{isFormAddFriendOpen && <FormAddFriend />}
+
+				<Button onClick={handleAddFriend}>
+					{isFormAddFriendOpen ? 'Close' : 'Add Friend'}
+				</Button>
 			</div>
 
 			<FormSplitBill />
@@ -83,9 +95,16 @@ function FriendItem(props) {
 }
 
 function Button(props) {
-	const { children } = props;
+	const { onClick, children } = props;
 
-	return <button className='button'>{children}</button>;
+	return (
+		<button
+			className='button'
+			onClick={onClick}
+		>
+			{children}
+		</button>
+	);
 }
 
 function FormAddFriend(props) {
