@@ -40,7 +40,10 @@ export default function App(props) {
 				/>
 
 				{isFormAddFriendOpen && (
-					<FormAddFriend setFriendsArray={setFriendsArray} />
+					<FormAddFriend
+						setFriendsArray={setFriendsArray}
+						setIsFormAddFriendOpen={setIsFormAddFriendOpen}
+					/>
 				)}
 
 				<Button onClick={handleAddFriend}>
@@ -129,7 +132,7 @@ function Button(props) {
 }
 
 function FormAddFriend(props) {
-	const { setFriendsArray } = props;
+	const { setFriendsArray, setIsFormAddFriendOpen } = props;
 	const [friendName, setFriendName] = useState('');
 	const [imageURL, setImageURL] = useState('https://i.pravatar.cc/48?u=');
 
@@ -159,6 +162,7 @@ function FormAddFriend(props) {
 			...currentFriendsArray,
 			newFriendObject
 		]);
+		setIsFormAddFriendOpen((currentState) => !currentState);
 		setFriendName('');
 		setImageURL('https://i.pravatar.cc/48?u=');
 	};
