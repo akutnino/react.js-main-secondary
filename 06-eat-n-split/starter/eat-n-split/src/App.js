@@ -23,6 +23,7 @@ const initialFriends = [
 
 export default function App(props) {
 	const [isFormAddFriendOpen, setIsFormAddFriendOpen] = useState(false);
+	const [selectedFriendItem, setSelectedFriendItem] = useState(null);
 
 	const handleAddFriend = () => {
 		setIsFormAddFriendOpen((currentState) => !currentState);
@@ -31,7 +32,10 @@ export default function App(props) {
 	return (
 		<div className='app'>
 			<div className='sidebar'>
-				<FriendsList />
+				<FriendsList
+					selectedFriendItem={selectedFriendItem}
+					setSelectedFriendItem={setSelectedFriendItem}
+				/>
 
 				{isFormAddFriendOpen && <FormAddFriend />}
 
@@ -40,12 +44,15 @@ export default function App(props) {
 				</Button>
 			</div>
 
-			<FormSplitBill />
+			{selectedFriendItem && (
+				<FormSplitBill selectedFriendItem={selectedFriendItem} />
+			)}
 		</div>
 	);
 }
 
 function FriendsList(props) {
+	const { selectedFriendItem, setSelectedFriendItem } = props;
 	const friends = initialFriends;
 
 	return (
@@ -53,6 +60,8 @@ function FriendsList(props) {
 			{friends.map((friendObject) => (
 				<FriendItem
 					friendObject={friendObject}
+					selectedFriendItem={selectedFriendItem}
+					setSelectedFriendItem={setSelectedFriendItem}
 					key={friendObject.id}
 				/>
 			))}
@@ -61,11 +70,18 @@ function FriendsList(props) {
 }
 
 function FriendItem(props) {
-	const { friendObject } = props;
+	const { friendObject, selectedFriendItem, setSelectedFriendItem } = props;
 
 	const YOU_OWE_FRIEND_MONEY = friendObject.balance < 0;
 	const FRIEND_OWES_YOU_MONEY = friendObject.balance > 0;
 	const YOU_AND_FRIEND_EQUAL = friendObject.balance === 0;
+
+	const handleSelectedFriend = (friendObject) => {
+		return () =>
+			setSelectedFriendItem((currrentSelectedFriendItem) =>
+				currrentSelectedFriendItem?.id === friendObject.id ? null : friendObject
+			);
+	};
 
 	return (
 		<li>
@@ -89,7 +105,9 @@ function FriendItem(props) {
 
 			{YOU_AND_FRIEND_EQUAL && <p>You and {friendObject.name} are even</p>}
 
-			<Button>Select</Button>
+			<Button onClick={handleSelectedFriend(friendObject)}>
+				{selectedFriendItem?.id === friendObject.id ? 'Close' : 'Select'}
+			</Button>
 		</li>
 	);
 }
@@ -122,9 +140,11 @@ function FormAddFriend(props) {
 }
 
 function FormSplitBill(props) {
+	const { selectedFriendItem } = props;
+
 	return (
 		<form className='form-split-bill'>
-			<h2>Split a bill with X</h2>
+			<h2>Split a bill with {selectedFriendItem?.name}</h2>
 
 			<label>💰 Bill value</label>
 			<input type='number' />
@@ -132,7 +152,7 @@ function FormSplitBill(props) {
 			<label>🧍‍♂️ Your expense</label>
 			<input type='number' />
 
-			<label>🧑‍🤝‍👩 X's expense</label>
+			<label>🧑‍🤝‍👩 {selectedFriendItem?.name}'s expense</label>
 			<input
 				type='number'
 				disabled
@@ -141,7 +161,7 @@ function FormSplitBill(props) {
 			<label>🤑 Who is paying the bill</label>
 			<select>
 				<option value='user'>You</option>
-				<option value='friend'>X</option>
+				<option value='friend'>{selectedFriendItem?.name}</option>
 			</select>
 
 			<Button>Split Bill</Button>
