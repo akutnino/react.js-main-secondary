@@ -205,6 +205,8 @@ function FormSplitBill(props) {
 	const handleSplitBill = (event) => {
 		event.preventDefault();
 
+		if (billValue === 0) return;
+
 		if (billPayer === 'user') {
 			setFriendsArray((currentFriendsArray) =>
 				currentFriendsArray.map((friendObject) =>
