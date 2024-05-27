@@ -113,7 +113,6 @@ function NumberResults(props) {
 function Main(props) {
 	const { movies } = props;
 	const [watched, setWatched] = useState(tempWatchedData);
-	const [isOpen1, setIsOpen1] = useState(true);
 	const [isOpen2, setIsOpen2] = useState(true);
 
 	const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
@@ -122,33 +121,7 @@ function Main(props) {
 
 	return (
 		<main className='main'>
-			<div className='box'>
-				<button
-					className='btn-toggle'
-					onClick={() => setIsOpen1((open) => !open)}
-				>
-					{isOpen1 ? '–' : '+'}
-				</button>
-				{isOpen1 && (
-					<ul className='list'>
-						{movies?.map((movie) => (
-							<li key={movie.imdbID}>
-								<img
-									src={movie.Poster}
-									alt={`${movie.Title} poster`}
-								/>
-								<h3>{movie.Title}</h3>
-								<div>
-									<p>
-										<span>🗓</span>
-										<span>{movie.Year}</span>
-									</p>
-								</div>
-							</li>
-						))}
-					</ul>
-				)}
-			</div>
+			<ListBox movies={movies} />
 
 			<div className='box'>
 				<button
@@ -210,5 +183,40 @@ function Main(props) {
 				)}
 			</div>
 		</main>
+	);
+}
+
+function ListBox(props) {
+	const { movies } = props;
+	const [isOpen1, setIsOpen1] = useState(true);
+
+	return (
+		<div className='box'>
+			<button
+				className='btn-toggle'
+				onClick={() => setIsOpen1((open) => !open)}
+			>
+				{isOpen1 ? '–' : '+'}
+			</button>
+			{isOpen1 && (
+				<ul className='list'>
+					{movies?.map((movie) => (
+						<li key={movie.imdbID}>
+							<img
+								src={movie.Poster}
+								alt={`${movie.Title} poster`}
+							/>
+							<h3>{movie.Title}</h3>
+							<div>
+								<p>
+									<span>🗓</span>
+									<span>{movie.Year}</span>
+								</p>
+							</div>
+						</li>
+					))}
+				</ul>
+			)}
+		</div>
 	);
 }
