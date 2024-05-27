@@ -66,17 +66,19 @@ function NavBar(props) {
 
 	return (
 		<nav className='nav-bar'>
-			<div className='logo'>
-				<span role='img'>🍿</span>
-				<h1>usePopcorn</h1>
-			</div>
-
+			<Logo />
 			<SearchBar />
-
-			<p className='num-results'>
-				Found <strong>{movies.length}</strong> results
-			</p>
+			<NumberResults movies={movies} />
 		</nav>
+	);
+}
+
+function Logo(props) {
+	return (
+		<div className='logo'>
+			<span role='img'>🍿</span>
+			<h1>usePopcorn</h1>
+		</div>
 	);
 }
 
@@ -95,6 +97,16 @@ function SearchBar(props) {
 			value={query}
 			onChange={handleSearchInput}
 		/>
+	);
+}
+
+function NumberResults(props) {
+	const { movies } = props;
+
+	return (
+		<p className='num-results'>
+			Found <strong>{movies.length}</strong> results
+		</p>
 	);
 }
 
