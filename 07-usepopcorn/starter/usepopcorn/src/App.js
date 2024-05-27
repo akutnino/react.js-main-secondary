@@ -144,7 +144,10 @@ function MovieList(props) {
 	return (
 		<ul className='list'>
 			{movies?.map((movie) => (
-				<MovieItem movie={movie} />
+				<MovieItem
+					movie={movie}
+					key={movie.imdbID}
+				/>
 			))}
 		</ul>
 	);
@@ -154,7 +157,7 @@ function MovieItem(props) {
 	const { movie } = props;
 
 	return (
-		<li key={movie.imdbID}>
+		<li>
 			<img
 				src={movie.Poster}
 				alt={`${movie.Title} poster`}
