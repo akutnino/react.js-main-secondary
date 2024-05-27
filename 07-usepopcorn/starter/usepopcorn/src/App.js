@@ -63,7 +63,6 @@ export default function App() {
 
 function NavBar(props) {
 	const { movies } = props;
-	const [query, setQuery] = useState('');
 
 	return (
 		<nav className='nav-bar'>
@@ -71,17 +70,31 @@ function NavBar(props) {
 				<span role='img'>🍿</span>
 				<h1>usePopcorn</h1>
 			</div>
-			<input
-				className='search'
-				type='text'
-				placeholder='Search movies...'
-				value={query}
-				onChange={(e) => setQuery(e.target.value)}
-			/>
+
+			<SearchBar />
+
 			<p className='num-results'>
 				Found <strong>{movies.length}</strong> results
 			</p>
 		</nav>
+	);
+}
+
+function SearchBar(props) {
+	const [query, setQuery] = useState('');
+
+	const handleSearchInput = (event) => {
+		setQuery(event.target.value);
+	};
+
+	return (
+		<input
+			className='search'
+			type='text'
+			placeholder='Search movies...'
+			value={query}
+			onChange={handleSearchInput}
+		/>
 	);
 }
 
