@@ -52,23 +52,34 @@ const average = (arr) =>
 
 export default function App() {
 	const [movies, setMovies] = useState(tempMovieData);
+	const [watched, setWatched] = useState(tempWatchedData);
 
 	return (
 		<>
-			<NavBar movies={movies} />
-			<Main movies={movies} />
+			<NavBar>
+				<NumberResults movies={movies} />
+			</NavBar>
+			<Main>
+				<Box>
+					<MovieList movies={movies} />
+				</Box>
+				<Box>
+					<WatchedSummary watched={watched} />
+					<WatchedMoviesList watched={watched} />
+				</Box>
+			</Main>
 		</>
 	);
 }
 
 function NavBar(props) {
-	const { movies } = props;
+	const { children } = props;
 
 	return (
 		<nav className='nav-bar'>
 			<Logo />
 			<SearchBar />
-			<NumberResults movies={movies} />
+			{children}
 		</nav>
 	);
 }
@@ -111,13 +122,29 @@ function NumberResults(props) {
 }
 
 function Main(props) {
-	const { movies } = props;
+	const { children } = props;
+
+	return <main className='main'>{children}</main>;
+}
+
+function Box(props) {
+	const { children } = props;
+	const [isOpen, setIsOpen] = useState(true);
+
+	const handleToggle = () => {
+		setIsOpen((currentState) => !currentState);
+	};
 
 	return (
-		<main className='main'>
-			<ListBox movies={movies} />
-			<WatchedBox />
-		</main>
+		<div className='box'>
+			<button
+				className='btn-toggle'
+				onClick={handleToggle}
+			>
+				{isOpen ? '–' : '+'}
+			</button>
+			{isOpen && children}
+		</div>
 	);
 }
 
