@@ -56,6 +56,7 @@ export default function App(props) {
 					selectedFriendItem={selectedFriendItem}
 					setFriendsArray={setFriendsArray}
 					setSelectedFriendItem={setSelectedFriendItem}
+					key={selectedFriendItem?.id}
 				/>
 			)}
 		</div>
