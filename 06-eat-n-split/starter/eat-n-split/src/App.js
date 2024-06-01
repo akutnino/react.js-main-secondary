@@ -241,11 +241,11 @@ function FormSplitBill(props) {
 	};
 
 	const handleUserExpense = (event) => {
-		setUserExpense(
-			Number(event.target.value) > billValue
-				? billValue
-				: Number(event.target.value)
-		);
+		setUserExpense(() => {
+			if (Number(event.target.value) > billValue) return billValue;
+			if (Number(event.target.value) <= 0) return 0;
+			return Number(event.target.value);
+		});
 	};
 
 	const handleBillPayer = (event) => {
