@@ -35,28 +35,28 @@ function Tabbed({ content }) {
 				<Tab
 					num={0}
 					activeTab={activeTab}
-					onClick={setActiveTab}
+					setActiveTab={setActiveTab}
 				/>
 				<Tab
 					num={1}
 					activeTab={activeTab}
-					onClick={setActiveTab}
+					setActiveTab={setActiveTab}
 				/>
 				<Tab
 					num={2}
 					activeTab={activeTab}
-					onClick={setActiveTab}
+					setActiveTab={setActiveTab}
 				/>
 				<Tab
 					num={3}
 					activeTab={activeTab}
-					onClick={setActiveTab}
+					setActiveTab={setActiveTab}
 				/>
 			</div>
 
 			{activeTab <= 2 ? (
 				<TabContent
-					item={content.at(activeTab)}
+					itemObject={content.at(activeTab)}
 					key={content.at(activeTab).summary}
 				/>
 			) : (
@@ -66,32 +66,43 @@ function Tabbed({ content }) {
 	);
 }
 
-function Tab({ num, activeTab, onClick }) {
+function Tab(props) {
+	const { num, activeTab, setActiveTab } = props;
+
+	const handleTab = () => {
+		setActiveTab(num);
+	};
+
 	return (
 		<button
 			className={activeTab === num ? 'tab active' : 'tab'}
-			onClick={() => onClick(num)}
+			onClick={handleTab}
 		>
 			Tab {num + 1}
 		</button>
 	);
 }
 
-function TabContent({ item }) {
+function TabContent(props) {
+	const { itemObject } = props;
 	const [showDetails, setShowDetails] = useState(true);
 	const [likes, setLikes] = useState(0);
 
-	function handleInc() {
-		setLikes(likes + 1);
-	}
+	const handleDetails = () => {
+		setShowDetails((currentState) => !currentState);
+	};
+
+	const handleInc = () => {
+		setLikes((currentLikes) => (currentLikes += 1));
+	};
 
 	return (
 		<div className='tab-content'>
-			<h4>{item.summary}</h4>
-			{showDetails && <p>{item.details}</p>}
+			<h4>{itemObject.summary}</h4>
+			{showDetails && <p>{itemObject.details}</p>}
 
 			<div className='tab-actions'>
-				<button onClick={() => setShowDetails((h) => !h)}>
+				<button onClick={handleDetails}>
 					{showDetails ? 'Hide' : 'Show'} details
 				</button>
 
