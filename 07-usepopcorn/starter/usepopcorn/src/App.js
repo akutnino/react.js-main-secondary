@@ -8,11 +8,23 @@ const average = (arr) =>
 export default function App() {
 	const [movies, setMovies] = useState([]);
 	const [watched, setWatched] = useState([]);
+	const movieQuery = 'interstellar';
 
 	useEffect(() => {
-		fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
-			.then((res) => res.json())
-			.then((data) => setMovies(data.Search));
+		const fetchMovies = async () => {
+			try {
+				const fetchURL = `http://www.omdbapi.com/?apikey=${KEY}&s=${movieQuery}`;
+				const response = await fetch(fetchURL);
+				const data = await response.json();
+
+				console.log(data);
+				setMovies(data.Search);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		fetchMovies();
 	}, []);
 
 	return (
