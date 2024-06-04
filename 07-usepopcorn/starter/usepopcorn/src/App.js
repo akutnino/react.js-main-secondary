@@ -24,7 +24,7 @@ export default function App() {
 				if (response.ok === false) throw new Error('Fetch Request Failed');
 
 				const data = await response.json();
-				if (data.Response === 'False') throw new Error('Response Data Failed');
+				if (data.Response === 'False') throw new Error('Movie Not Found');
 
 				setMovies(data.Search);
 			} catch (error) {
