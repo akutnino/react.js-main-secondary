@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 
 const KEY = '3494c38';
 
-const average = (arr) =>
-	arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export default function App() {
 	const [query, setQuery] = useState('');
@@ -11,6 +10,7 @@ export default function App() {
 	const [watched, setWatched] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorString, setErrorString] = useState('');
+	const [selectedMovieId, setSelectedMovieId] = useState(null);
 
 	useEffect(() => {
 		const fetchMovies = async () => {
@@ -58,12 +58,27 @@ export default function App() {
 			<Main>
 				<Box>
 					{isLoading && <Loader />}
-					{!isLoading && !errorString && <MovieList movies={movies} />}
+					{!isLoading && !errorString && (
+						<MovieList
+							movies={movies}
+							setSelectedMovieId={setSelectedMovieId}
+						/>
+					)}
 					{errorString && <ErrorMessage errorString={errorString} />}
 				</Box>
 				<Box>
-					<WatchedSummary watched={watched} />
-					<WatchedMoviesList watched={watched} />
+					{selectedMovieId && (
+						<MovieDetails
+							selectedMovieId={selectedMovieId}
+							setSelectedMovieId={setSelectedMovieId}
+						/>
+					)}
+					{!selectedMovieId && (
+						<>
+							<WatchedSummary watched={watched} />
+							<WatchedMoviesList watched={watched} />
+						</>
+					)}
 				</Box>
 			</Main>
 		</>
@@ -156,13 +171,19 @@ function ErrorMessage(props) {
 }
 
 function MovieList(props) {
-	const { movies } = props;
+	const { movies, setSelectedMovieId } = props;
+
+	const handleSelectedMovie = (movieId) => {
+		return () =>
+			setSelectedMovieId((currentId) => (currentId === movieId ? null : movieId));
+	};
 
 	return (
-		<ul className='list'>
+		<ul className='list list-movies'>
 			{movies?.map((movie) => (
 				<MovieItem
 					movie={movie}
+					onClick={handleSelectedMovie(movie.imdbID)}
 					key={movie.imdbID}
 				/>
 			))}
@@ -171,10 +192,10 @@ function MovieList(props) {
 }
 
 function MovieItem(props) {
-	const { movie } = props;
+	const { movie, onClick } = props;
 
 	return (
-		<li>
+		<li onClick={onClick}>
 			<img
 				src={movie.Poster}
 				alt={`${movie.Title} poster`}
@@ -187,6 +208,26 @@ function MovieItem(props) {
 				</p>
 			</div>
 		</li>
+	);
+}
+
+function MovieDetails(props) {
+	const { selectedMovieId, setSelectedMovieId } = props;
+
+	const handleCloseMovieDetails = () => {
+		setSelectedMovieId(null);
+	};
+
+	return (
+		<div className='details'>
+			<button
+				className='btn-back'
+				onClick={handleCloseMovieDetails}
+			>
+				&larr;
+			</button>
+			{selectedMovieId}
+		</div>
 	);
 }
 
