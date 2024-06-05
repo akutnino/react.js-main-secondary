@@ -6,18 +6,19 @@ const average = (arr) =>
 	arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export default function App() {
+	const [query, setQuery] = useState('');
 	const [movies, setMovies] = useState([]);
 	const [watched, setWatched] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorString, setErrorString] = useState('');
-	const movieQuery = 'interstellar';
 
 	useEffect(() => {
 		const fetchMovies = async () => {
 			try {
+				setErrorString('');
 				setIsLoading(true);
 
-				const fetchURL = `http://www.omdbapi.com/?apikey=${KEY}&s=${movieQuery}`;
+				const fetchURL = `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`;
 				const fetchOptions = {};
 
 				const response = await fetch(fetchURL, fetchOptions);
@@ -35,13 +36,23 @@ export default function App() {
 			}
 		};
 
+		if (query.length < 3) {
+			setMovies([]);
+			setErrorString('');
+			return;
+		}
+
 		fetchMovies();
 		return () => {};
-	}, []);
+	}, [query]);
 
 	return (
 		<>
 			<NavBar>
+				<SearchBar
+					query={query}
+					setQuery={setQuery}
+				/>
 				<NumberResults movies={movies} />
 			</NavBar>
 			<Main>
@@ -65,7 +76,6 @@ function NavBar(props) {
 	return (
 		<nav className='nav-bar'>
 			<Logo />
-			<SearchBar />
 			{children}
 		</nav>
 	);
@@ -81,7 +91,7 @@ function Logo(props) {
 }
 
 function SearchBar(props) {
-	const [query, setQuery] = useState('');
+	const { query, setQuery } = props;
 
 	const handleSearchInput = (event) => {
 		setQuery(event.target.value);
