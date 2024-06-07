@@ -13,6 +13,7 @@ export default function App() {
 	const [errorString, setErrorString] = useState('');
 	const [selectedMovieId, setSelectedMovieId] = useState(null);
 	const [selectedMovieObject, setSelectedMovieObject] = useState({});
+	const [userRating, setUserRating] = useState(0);
 
 	useEffect(() => {
 		const fetchMovies = async () => {
@@ -65,6 +66,7 @@ export default function App() {
 							movies={movies}
 							setSelectedMovieId={setSelectedMovieId}
 							setSelectedMovieObject={setSelectedMovieObject}
+							setUserRating={setUserRating}
 						/>
 					)}
 					{errorString && <ErrorMessage errorString={errorString} />}
@@ -76,6 +78,10 @@ export default function App() {
 							setSelectedMovieId={setSelectedMovieId}
 							selectedMovieObject={selectedMovieObject}
 							setSelectedMovieObject={setSelectedMovieObject}
+							watched={watched}
+							setWatched={setWatched}
+							userRating={userRating}
+							setUserRating={setUserRating}
 						/>
 					)}
 					{!selectedMovieId && (
@@ -176,7 +182,7 @@ function ErrorMessage(props) {
 }
 
 function MovieList(props) {
-	const { movies, setSelectedMovieId, setSelectedMovieObject } = props;
+	const { movies, setSelectedMovieId, setSelectedMovieObject, setUserRating } = props;
 
 	const handleSelectedMovie = (movieId) => {
 		return () => {
@@ -184,6 +190,7 @@ function MovieList(props) {
 			setSelectedMovieObject((currentObject) =>
 				currentObject?.imdbID === movieId ? {} : currentObject
 			);
+			setUserRating(0);
 		};
 	};
 
@@ -220,14 +227,27 @@ function MovieItem(props) {
 	);
 }
 
+// prettier-ignore
 function MovieDetails(props) {
 	const {
 		selectedMovieId,
 		setSelectedMovieId,
 		selectedMovieObject,
-		setSelectedMovieObject
+		setSelectedMovieObject,
+		watched,
+		setWatched,
+		userRating,
+		setUserRating
 	} = props;
 	const [isLoading, setIsLoading] = useState(false);
+
+	const isMovieRated = watched
+		.filter((movieObject) => (movieObject?.imdbID === selectedMovieId ? true : false))
+		.at(0)?.userRating > 0;
+
+	const currentMovieObect = watched
+		.filter((movieObject) => (movieObject?.imdbID === selectedMovieId ? true : false))
+		.at(0);
 
 	const {
 		Title: title,
@@ -244,6 +264,22 @@ function MovieDetails(props) {
 	const handleCloseMovieDetails = () => {
 		setSelectedMovieId(null);
 		setSelectedMovieObject({});
+	};
+
+	const handleAddWatchedMovie = () => {
+		const watchedMovieObject = {
+			imdbID: selectedMovieId,
+			poster,
+			title,
+			userRating,
+			imdbRating: Number(imdbRating),
+			runtime: Number(runtime.split(' ').at())
+		};
+
+		setWatched((currentWatchedMovies) => [...currentWatchedMovies, watchedMovieObject]);
+		setSelectedMovieObject({});
+		setSelectedMovieId(null);
+		setUserRating(0);
 	};
 
 	useEffect(() => {
@@ -302,11 +338,26 @@ function MovieDetails(props) {
 
 					<section>
 						<div className='rating'>
-							<StarRating
-								maxRating={10}
-								starSize={25}
-							/>
+							{isMovieRated && <p>You Rated this Movie: {currentMovieObect.userRating} ⭐</p>}
+
+							{!isMovieRated && (
+								<StarRating
+									maxRating={10}
+									starSize={25}
+									onSetRating={setUserRating}
+								/>
+							)}
+
+							{userRating > 0 && (
+								<button
+									className='btn-add'
+									onClick={handleAddWatchedMovie}
+								>
+									Add to List +
+								</button>
+							)}
 						</div>
+
 						<p>
 							<em>{plot}</em>
 						</p>
@@ -335,15 +386,15 @@ function WatchedSummary(props) {
 				</p>
 				<p>
 					<span>⭐️</span>
-					<span>{avgImdbRating}</span>
+					<span>{Number(avgImdbRating.toFixed(1))}</span>
 				</p>
 				<p>
 					<span>🌟</span>
-					<span>{avgUserRating}</span>
+					<span>{Number(avgUserRating.toFixed(1))}</span>
 				</p>
 				<p>
 					<span>⏳</span>
-					<span>{avgRuntime} min</span>
+					<span>{Number(avgRuntime.toFixed(1))} min</span>
 				</p>
 			</div>
 		</div>
@@ -355,10 +406,10 @@ function WatchedMoviesList(props) {
 
 	return (
 		<ul className='list'>
-			{watched.map((movie) => (
+			{watched.map((movieObject) => (
 				<WatchedMovieItem
-					movie={movie}
-					key={movie.imdbID}
+					movieObject={movieObject}
+					key={movieObject.imdbID}
 				/>
 			))}
 		</ul>
@@ -366,27 +417,27 @@ function WatchedMoviesList(props) {
 }
 
 function WatchedMovieItem(props) {
-	const { movie } = props;
+	const { movieObject } = props;
 
 	return (
 		<li>
 			<img
-				src={movie.Poster}
-				alt={`${movie.Title} poster`}
+				src={movieObject.poster}
+				alt={`${movieObject.title} poster`}
 			/>
-			<h3>{movie.Title}</h3>
+			<h3>{movieObject.title}</h3>
 			<div>
 				<p>
 					<span>⭐️</span>
-					<span>{movie.imdbRating}</span>
+					<span>{movieObject.imdbRating}</span>
 				</p>
 				<p>
 					<span>🌟</span>
-					<span>{movie.userRating}</span>
+					<span>{movieObject.userRating}</span>
 				</p>
 				<p>
 					<span>⏳</span>
-					<span>{movie.runtime} min</span>
+					<span>{movieObject.runtime} min</span>
 				</p>
 			</div>
 		</li>
