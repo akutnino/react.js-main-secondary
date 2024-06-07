@@ -181,7 +181,9 @@ function MovieList(props) {
 	const handleSelectedMovie = (movieId) => {
 		return () => {
 			setSelectedMovieId((currentId) => (currentId === movieId ? null : movieId));
-			setSelectedMovieObject({});
+			setSelectedMovieObject((currentObject) =>
+				currentObject?.imdbID === movieId ? {} : currentObject
+			);
 		};
 	};
 
