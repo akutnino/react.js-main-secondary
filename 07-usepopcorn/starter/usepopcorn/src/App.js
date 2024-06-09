@@ -49,6 +49,16 @@ export default function App() {
 		return () => {};
 	}, [query]);
 
+	useEffect(() => {
+		if (selectedMovieObject.Title) {
+			document.querySelector('title').textContent = `Movie: ${selectedMovieObject.Title}`;
+		} else {
+			document.querySelector('title').textContent = `usePopcorn | Welcome`;
+		}
+
+		return () => {};
+	}, [selectedMovieObject]);
+
 	return (
 		<>
 			<NavBar>
