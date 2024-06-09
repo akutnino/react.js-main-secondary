@@ -245,7 +245,7 @@ function MovieDetails(props) {
 		.filter((movieObject) => (movieObject?.imdbID === selectedMovieId ? true : false))
 		.at(0)?.userRating > 0;
 
-	const currentMovieObect = watched
+	const currentMovieObject = watched
 		.filter((movieObject) => (movieObject?.imdbID === selectedMovieId ? true : false))
 		.at(0);
 
@@ -338,7 +338,7 @@ function MovieDetails(props) {
 
 					<section>
 						<div className='rating'>
-							{isMovieRated && <p>You Rated this Movie: {currentMovieObect.userRating} ⭐</p>}
+							{isMovieRated && <p>You Rated this Movie: {currentMovieObject.userRating} ⭐</p>}
 
 							{!isMovieRated && (
 								<StarRating
