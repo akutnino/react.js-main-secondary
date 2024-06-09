@@ -87,7 +87,10 @@ export default function App() {
 					{!selectedMovieId && (
 						<>
 							<WatchedSummary watched={watched} />
-							<WatchedMoviesList watched={watched} />
+							<WatchedMoviesList
+								watched={watched}
+								setWatched={setWatched}
+							/>
 						</>
 					)}
 				</Box>
@@ -402,13 +405,24 @@ function WatchedSummary(props) {
 }
 
 function WatchedMoviesList(props) {
-	const { watched } = props;
+	const { watched, setWatched } = props;
+
+	const handleDeleteMovie = (movieId) => {
+		return () => {
+			setWatched((currentWatchedMovies) =>
+				currentWatchedMovies.filter((movieObject) =>
+					movieObject.imdbID === movieId ? false : true
+				)
+			);
+		};
+	};
 
 	return (
 		<ul className='list'>
 			{watched.map((movieObject) => (
 				<WatchedMovieItem
 					movieObject={movieObject}
+					onClick={handleDeleteMovie(movieObject.imdbID)}
 					key={movieObject.imdbID}
 				/>
 			))}
@@ -417,7 +431,7 @@ function WatchedMoviesList(props) {
 }
 
 function WatchedMovieItem(props) {
-	const { movieObject } = props;
+	const { movieObject, onClick } = props;
 
 	return (
 		<li>
@@ -439,6 +453,13 @@ function WatchedMovieItem(props) {
 					<span>⏳</span>
 					<span>{movieObject.runtime} min</span>
 				</p>
+
+				<button
+					className='btn-delete'
+					onClick={onClick}
+				>
+					X
+				</button>
 			</div>
 		</li>
 	);
