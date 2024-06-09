@@ -52,11 +52,11 @@ export default function App() {
 	useEffect(() => {
 		if (selectedMovieObject.Title) {
 			document.querySelector('title').textContent = `Movie: ${selectedMovieObject.Title}`;
-		} else {
-			document.querySelector('title').textContent = `usePopcorn | Welcome`;
 		}
 
-		return () => {};
+		return () => {
+			document.querySelector('title').textContent = `usePopcorn | Welcome`;
+		};
 	}, [selectedMovieObject]);
 
 	return (
