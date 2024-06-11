@@ -329,6 +329,21 @@ function MovieDetails(props) {
 		return () => {};
 	}, [selectedMovieId, setSelectedMovieObject]);
 
+	useEffect(() => {
+		const handleKeyDown = (event) => {
+			if (event.key === 'Escape') {
+				setSelectedMovieId(null);
+				setSelectedMovieObject({});
+			}
+		};
+
+		document.addEventListener('keydown', handleKeyDown);
+
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown);
+		};
+	}, [setSelectedMovieId, setSelectedMovieObject]);
+
 	return (
 		<div className='details'>
 			{isLoading && <Loader />}
