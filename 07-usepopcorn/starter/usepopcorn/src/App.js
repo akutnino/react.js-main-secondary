@@ -16,13 +16,15 @@ export default function App() {
 	const [userRating, setUserRating] = useState(0);
 
 	useEffect(() => {
+		const controller = new AbortController();
+
 		const fetchMovies = async () => {
 			try {
 				setErrorString('');
 				setIsLoading(true);
 
 				const fetchURL = `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`;
-				const fetchOptions = {};
+				const fetchOptions = { signal: controller.signal };
 
 				const response = await fetch(fetchURL, fetchOptions);
 				if (response.ok === false) throw new Error('Fetch Request Failed');
@@ -32,8 +34,10 @@ export default function App() {
 
 				setMovies(data.Search);
 			} catch (error) {
-				console.error(error);
-				setErrorString(error.message);
+				if (error.name !== 'AbortError') {
+					console.error(error);
+					setErrorString(error.message);
+				}
 			} finally {
 				setIsLoading(false);
 			}
@@ -46,7 +50,9 @@ export default function App() {
 		}
 
 		fetchMovies();
-		return () => {};
+		return () => {
+			controller.abort();
+		};
 	}, [query]);
 
 	useEffect(() => {
