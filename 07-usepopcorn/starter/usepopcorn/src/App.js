@@ -280,9 +280,6 @@ function MovieDetails(props) {
 		Director: director
 	} = selectedMovieObject;
 
-	/* eslint-disable */
-	if (imdbRating > 8) [isTop, setIsTop] = useState(true);
-
 	const handleCloseMovieDetails = () => {
 		setSelectedMovieId(null);
 		setSelectedMovieObject({});
