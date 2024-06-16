@@ -145,6 +145,11 @@ function SearchBar(props) {
 		setQuery(event.target.value);
 	};
 
+	useEffect(() => {
+		const inputElement = document.querySelector('.search');
+		inputElement.focus();
+	}, []);
+
 	return (
 		<input
 			className='search'
