@@ -1,5 +1,5 @@
 import StarRating from './StarRating';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const KEY = '3494c38';
 
@@ -140,10 +140,30 @@ function Logo(props) {
 
 function SearchBar(props) {
 	const { query, setQuery } = props;
+	const inputElement = useRef(null);
 
 	const handleSearchInput = (event) => {
 		setQuery(event.target.value);
 	};
+
+	useEffect(() => {
+		inputElement.current.focus();
+
+		const keypressCallback = (event) => {
+			if (document.activeElement === inputElement.current) return;
+
+			if (event.key === 'Enter') {
+				inputElement.current.focus();
+				setQuery('');
+			}
+		};
+
+		document.addEventListener('keypress', keypressCallback);
+
+		return () => {
+			document.removeEventListener('keypress', keypressCallback);
+		};
+	}, []);
 
 	return (
 		<input
@@ -152,6 +172,7 @@ function SearchBar(props) {
 			placeholder='Search movies...'
 			value={query}
 			onChange={handleSearchInput}
+			ref={inputElement}
 		/>
 	);
 }
