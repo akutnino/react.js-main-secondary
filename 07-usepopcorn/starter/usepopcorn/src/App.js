@@ -163,7 +163,7 @@ function SearchBar(props) {
 		return () => {
 			document.removeEventListener('keypress', keypressCallback);
 		};
-	}, []);
+	}, [setQuery]);
 
 	return (
 		<input
