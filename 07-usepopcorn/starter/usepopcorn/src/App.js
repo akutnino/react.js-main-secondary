@@ -270,7 +270,6 @@ function MovieItem(props) {
 	);
 }
 
-// prettier-ignore
 function MovieDetails(props) {
 	const {
 		selectedMovieId,
@@ -283,10 +282,12 @@ function MovieDetails(props) {
 		setUserRating
 	} = props;
 	const [isLoading, setIsLoading] = useState(false);
+	const ratingChangesCount = useRef(0);
 
-	const isMovieRated = watched
-		.filter((movieObject) => (movieObject?.imdbID === selectedMovieId ? true : false))
-		.at(0)?.userRating > 0;
+	const isMovieRated =
+		watched
+			.filter((movieObject) => (movieObject?.imdbID === selectedMovieId ? true : false))
+			.at(0)?.userRating > 0;
 
 	const currentMovieObject = watched
 		.filter((movieObject) => (movieObject?.imdbID === selectedMovieId ? true : false))
@@ -316,12 +317,13 @@ function MovieDetails(props) {
 			title,
 			userRating,
 			imdbRating: Number(imdbRating),
-			runtime: Number(runtime.split(' ').at())
+			runtime: Number(runtime.split(' ').at()),
+			userRatingDecisions: Number(ratingChangesCount.current)
 		};
 
-		const updatedWatchedMoviesLS = JSON.stringify([...watched, watchedMovieObject])
+		const updatedWatchedMoviesLS = JSON.stringify([...watched, watchedMovieObject]);
 		localStorage.setItem('watchedMoviesArray', updatedWatchedMoviesLS);
-		
+
 		setWatched((currentWatchedMovies) => [...currentWatchedMovies, watchedMovieObject]);
 		setSelectedMovieObject({});
 		setSelectedMovieId(null);
@@ -371,6 +373,12 @@ function MovieDetails(props) {
 		};
 	}, [setSelectedMovieId, setSelectedMovieObject]);
 
+	useEffect(() => {
+		if (userRating) ratingChangesCount.current += 1;
+
+		return () => {};
+	}, [userRating]);
+
 	return (
 		<div className='details'>
 			{isLoading && <Loader />}
@@ -399,7 +407,9 @@ function MovieDetails(props) {
 
 					<section>
 						<div className='rating'>
-							{isMovieRated && <p>You Rated this Movie: {currentMovieObject.userRating} ⭐</p>}
+							{isMovieRated && (
+								<p>You Rated this Movie: {currentMovieObject.userRating} ⭐</p>
+							)}
 
 							{!isMovieRated && (
 								<StarRating
