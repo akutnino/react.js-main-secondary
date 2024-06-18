@@ -319,7 +319,9 @@ function MovieDetails(props) {
 			runtime: Number(runtime.split(' ').at())
 		};
 
-		localStorage.setItem('watchedMoviesArray', JSON.stringify([...watched, watchedMovieObject]));
+		const updatedWatchedMoviesLS = JSON.stringify([...watched, watchedMovieObject])
+		localStorage.setItem('watchedMoviesArray', updatedWatchedMoviesLS);
+		
 		setWatched((currentWatchedMovies) => [...currentWatchedMovies, watchedMovieObject]);
 		setSelectedMovieObject({});
 		setSelectedMovieId(null);
