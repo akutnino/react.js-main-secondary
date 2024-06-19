@@ -35,6 +35,8 @@ export default function App() {
 				<SearchBar
 					query={query}
 					setQuery={setQuery}
+					setSelectedMovieId={setSelectedMovieId}
+					setSelectedMovieObject={setSelectedMovieObject}
 				/>
 				<NumberResults movies={movies} />
 			</NavBar>
@@ -100,7 +102,7 @@ function Logo(props) {
 }
 
 function SearchBar(props) {
-	const { query, setQuery } = props;
+	const { query, setQuery, setSelectedMovieId, setSelectedMovieObject } = props;
 	const inputElement = useRef(null);
 
 	const handleSearchInput = (event) => {
@@ -116,6 +118,8 @@ function SearchBar(props) {
 			if (event.key === 'Enter') {
 				inputElement.current.focus();
 				setQuery('');
+				setSelectedMovieId(null);
+				setSelectedMovieObject({});
 			}
 		};
 
@@ -124,7 +128,7 @@ function SearchBar(props) {
 		return () => {
 			document.removeEventListener('keypress', keypressCallback);
 		};
-	}, [setQuery]);
+	}, [setQuery, setSelectedMovieId, setSelectedMovieObject]);
 
 	return (
 		<input
