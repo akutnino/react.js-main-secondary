@@ -1,23 +1,19 @@
 import StarRating from './StarRating';
 import { useEffect, useRef, useState } from 'react';
 import { useMovies } from './useMovies';
+import { useLocalStorageState } from './useLocalStorageState';
 
 const KEY = '3494c38';
 
 const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const localStorageData = () => {
-	const getWatchedMovies = JSON.parse(localStorage.getItem('watchedMoviesArray'));
-	return getWatchedMovies ? getWatchedMovies : [];
-};
-
 export default function App() {
 	const [query, setQuery] = useState('');
-	const [watched, setWatched] = useState(localStorageData);
 	const [selectedMovieId, setSelectedMovieId] = useState(null);
 	const [selectedMovieObject, setSelectedMovieObject] = useState({});
 	const [userRating, setUserRating] = useState(0);
 	const [movies, isLoading, errorString] = useMovies(query);
+	const [watched, setWatched] = useLocalStorageState([], 'watchedMoviesArray');
 
 	useEffect(() => {
 		if (selectedMovieObject.Title) {
