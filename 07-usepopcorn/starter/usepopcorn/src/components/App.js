@@ -4,6 +4,7 @@ import { useLocalStorageState } from '../hooks/useLocalStorageState';
 import StarRating from './StarRating';
 import NavBar from './NavBar';
 import SearchBar from './SearchBar';
+import NumberResults from './NumberResults';
 
 const KEY = '3494c38';
 
@@ -76,16 +77,6 @@ export default function App() {
 				</Box>
 			</Main>
 		</>
-	);
-}
-
-function NumberResults(props) {
-	const { movies } = props;
-
-	return (
-		<p className='num-results'>
-			Found <strong>{movies.length}</strong> results
-		</p>
 	);
 }
 
