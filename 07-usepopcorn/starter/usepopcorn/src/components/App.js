@@ -5,6 +5,7 @@ import StarRating from './StarRating';
 import NavBar from './NavBar';
 import SearchBar from './SearchBar';
 import NumberResults from './NumberResults';
+import Main from './Main';
 
 const KEY = '3494c38';
 
@@ -78,12 +79,6 @@ export default function App() {
 			</Main>
 		</>
 	);
-}
-
-function Main(props) {
-	const { children } = props;
-
-	return <main className='main'>{children}</main>;
 }
 
 function Box(props) {
