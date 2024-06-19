@@ -5,13 +5,15 @@ const KEY = '3494c38';
 
 const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
+const localStorageData = () => {
+	const getWatchedMovies = JSON.parse(localStorage.getItem('watchedMoviesArray'));
+	return getWatchedMovies ? getWatchedMovies : [];
+};
+
 export default function App() {
 	const [query, setQuery] = useState('');
 	const [movies, setMovies] = useState([]);
-	const [watched, setWatched] = useState(() => {
-		const getWatchedMovies = JSON.parse(localStorage.getItem('watchedMoviesArray'));
-		return getWatchedMovies ? getWatchedMovies : [];
-	});
+	const [watched, setWatched] = useState(localStorageData);
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorString, setErrorString] = useState('');
 	const [selectedMovieId, setSelectedMovieId] = useState(null);
