@@ -1,7 +1,7 @@
 import StarRating from './StarRating';
 import { useEffect, useRef, useState } from 'react';
-import { useMovies } from './useMovies';
-import { useLocalStorageState } from './useLocalStorageState';
+import { useMovies } from '../hooks/useMovies';
+import { useLocalStorageState } from '../hooks/useLocalStorageState';
 
 const KEY = '3494c38';
 
