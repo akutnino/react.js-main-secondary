@@ -1,7 +1,8 @@
-import StarRating from './StarRating';
 import { useEffect, useRef, useState } from 'react';
 import { useMovies } from '../hooks/useMovies';
 import { useLocalStorageState } from '../hooks/useLocalStorageState';
+import StarRating from './StarRating';
+import NavBar from './NavBar';
 
 const KEY = '3494c38';
 
@@ -74,26 +75,6 @@ export default function App() {
 				</Box>
 			</Main>
 		</>
-	);
-}
-
-function NavBar(props) {
-	const { children } = props;
-
-	return (
-		<nav className='nav-bar'>
-			<Logo />
-			{children}
-		</nav>
-	);
-}
-
-function Logo(props) {
-	return (
-		<div className='logo'>
-			<span role='img'>🍿</span>
-			<h1>usePopcorn</h1>
-		</div>
 	);
 }
 
