@@ -1,29 +1,16 @@
 import WatchedMovieItem from './WatchedMovieItem';
 
 export default function WatchedMoviesList(props) {
-	const { watched, setWatched } = props;
-
-	const handleDeleteMovie = (movieId) => {
-		return () => {
-			setWatched((currentWatchedMovies) => {
-				const updatedWatchedMovies = currentWatchedMovies.filter((movieObject) =>
-					movieObject.imdbID === movieId ? false : true
-				);
-
-				const updatedWatchedMoviesLS = JSON.stringify(updatedWatchedMovies);
-				localStorage.setItem('watchedMoviesArray', updatedWatchedMoviesLS);
-
-				return updatedWatchedMovies;
-			});
-		};
-	};
+	const { watched, setWatched, setSelectedMovieId, setSelectedMovieObject } = props;
 
 	return (
-		<ul className='list'>
+		<ul className='list list-movies'>
 			{watched.map((movieObject) => (
 				<WatchedMovieItem
 					movieObject={movieObject}
-					onClick={handleDeleteMovie(movieObject.imdbID)}
+					setWatched={setWatched}
+					setSelectedMovieId={setSelectedMovieId}
+					setSelectedMovieObject={setSelectedMovieObject}
 					key={movieObject.imdbID}
 				/>
 			))}

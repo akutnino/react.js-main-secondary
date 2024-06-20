@@ -74,6 +74,8 @@ export default function App() {
 							<WatchedMoviesList
 								watched={watched}
 								setWatched={setWatched}
+								setSelectedMovieId={setSelectedMovieId}
+								setSelectedMovieObject={setSelectedMovieObject}
 							/>
 						</>
 					)}

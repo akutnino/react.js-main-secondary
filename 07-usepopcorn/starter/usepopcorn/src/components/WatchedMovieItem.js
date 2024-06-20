@@ -1,8 +1,32 @@
 export default function WatchedMovieItem(props) {
-	const { movieObject, onClick } = props;
+	const { movieObject, setWatched, setSelectedMovieId, setSelectedMovieObject } = props;
+
+	const handleViewMovie = (movieId) => {
+		return () => {
+			setSelectedMovieId(movieId);
+			setSelectedMovieObject(movieObject);
+		};
+	};
+
+	const handleDeleteMovie = (movieId) => {
+		return (event) => {
+			event.stopPropagation();
+
+			setWatched((currentWatchedMovies) => {
+				const updatedWatchedMovies = currentWatchedMovies.filter((movieObject) =>
+					movieObject.imdbID === movieId ? false : true
+				);
+
+				const updatedWatchedMoviesLS = JSON.stringify(updatedWatchedMovies);
+				localStorage.setItem('watchedMoviesArray', updatedWatchedMoviesLS);
+
+				return updatedWatchedMovies;
+			});
+		};
+	};
 
 	return (
-		<li>
+		<li onClick={handleViewMovie(movieObject.imdbID)}>
 			<img
 				src={movieObject.poster}
 				alt={`${movieObject.title} poster`}
@@ -24,7 +48,7 @@ export default function WatchedMovieItem(props) {
 
 				<button
 					className='btn-delete'
-					onClick={onClick}
+					onClick={handleDeleteMovie(movieObject.imdbID)}
 				>
 					X
 				</button>
