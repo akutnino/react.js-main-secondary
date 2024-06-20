@@ -6,6 +6,7 @@ import NavBar from './NavBar';
 import SearchBar from './SearchBar';
 import NumberResults from './NumberResults';
 import Main from './Main';
+import Box from './Box';
 
 const KEY = '3494c38';
 
@@ -78,27 +79,6 @@ export default function App() {
 				</Box>
 			</Main>
 		</>
-	);
-}
-
-function Box(props) {
-	const { children } = props;
-	const [isOpen, setIsOpen] = useState(true);
-
-	const handleToggle = () => {
-		setIsOpen((currentState) => !currentState);
-	};
-
-	return (
-		<div className='box'>
-			<button
-				className='btn-toggle'
-				onClick={handleToggle}
-			>
-				{isOpen ? '–' : '+'}
-			</button>
-			{isOpen && children}
-		</div>
 	);
 }
 
