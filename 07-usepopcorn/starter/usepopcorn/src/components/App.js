@@ -7,6 +7,7 @@ import SearchBar from './SearchBar';
 import NumberResults from './NumberResults';
 import Main from './Main';
 import Box from './Box';
+import Loader from './Loader';
 
 const KEY = '3494c38';
 
@@ -80,10 +81,6 @@ export default function App() {
 			</Main>
 		</>
 	);
-}
-
-function Loader(props) {
-	return <p className='loader'>Loading...</p>;
 }
 
 function ErrorMessage(props) {
