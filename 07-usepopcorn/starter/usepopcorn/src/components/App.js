@@ -8,6 +8,7 @@ import NumberResults from './NumberResults';
 import Main from './Main';
 import Box from './Box';
 import Loader from './Loader';
+import ErrorMessage from './ErrorMessage';
 
 const KEY = '3494c38';
 
@@ -81,12 +82,6 @@ export default function App() {
 			</Main>
 		</>
 	);
-}
-
-function ErrorMessage(props) {
-	const { errorString } = props;
-
-	return <p className='error'>⛔ {errorString}</p>;
 }
 
 function MovieList(props) {
