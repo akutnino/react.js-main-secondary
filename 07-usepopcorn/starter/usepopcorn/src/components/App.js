@@ -9,6 +9,7 @@ import Main from './Main';
 import Box from './Box';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
+import MovieList from './MovieList';
 
 const KEY = '3494c38';
 
@@ -81,52 +82,6 @@ export default function App() {
 				</Box>
 			</Main>
 		</>
-	);
-}
-
-function MovieList(props) {
-	const { movies, setSelectedMovieId, setSelectedMovieObject, setUserRating } = props;
-
-	const handleSelectedMovie = (movieId) => {
-		return () => {
-			setSelectedMovieId((currentId) => (currentId === movieId ? null : movieId));
-			setSelectedMovieObject((currentObject) =>
-				currentObject?.imdbID === movieId ? {} : currentObject
-			);
-			setUserRating(0);
-		};
-	};
-
-	return (
-		<ul className='list list-movies'>
-			{movies?.map((movie) => (
-				<MovieItem
-					movie={movie}
-					onClick={handleSelectedMovie(movie.imdbID)}
-					key={movie.imdbID}
-				/>
-			))}
-		</ul>
-	);
-}
-
-function MovieItem(props) {
-	const { movie, onClick } = props;
-
-	return (
-		<li onClick={onClick}>
-			<img
-				src={movie.Poster}
-				alt={`${movie.Title} poster`}
-			/>
-			<h3>{movie.Title}</h3>
-			<div>
-				<p>
-					<span>🗓</span>
-					<span>{movie.Year}</span>
-				</p>
-			</div>
-		</li>
 	);
 }
 
