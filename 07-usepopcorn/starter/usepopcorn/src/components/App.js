@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMovies } from '../hooks/useMovies';
 import { useLocalStorageState } from '../hooks/useLocalStorageState';
 import NavBar from './NavBar';
@@ -11,6 +11,7 @@ import ErrorMessage from './ErrorMessage';
 import MovieList from './MovieList';
 import MovieDetails from './MovieDetails';
 import WatchedSummary from './WatchedSummary';
+import WatchedMoviesList from './WatchedMoviesList';
 
 export default function App() {
 	const [query, setQuery] = useState('');
@@ -79,71 +80,5 @@ export default function App() {
 				</Box>
 			</Main>
 		</>
-	);
-}
-
-function WatchedMoviesList(props) {
-	const { watched, setWatched } = props;
-
-	const handleDeleteMovie = (movieId) => {
-		return () => {
-			setWatched((currentWatchedMovies) => {
-				const updatedWatchedMovies = currentWatchedMovies.filter((movieObject) =>
-					movieObject.imdbID === movieId ? false : true
-				);
-
-				const updatedWatchedMoviesLS = JSON.stringify(updatedWatchedMovies);
-				localStorage.setItem('watchedMoviesArray', updatedWatchedMoviesLS);
-
-				return updatedWatchedMovies;
-			});
-		};
-	};
-
-	return (
-		<ul className='list'>
-			{watched.map((movieObject) => (
-				<WatchedMovieItem
-					movieObject={movieObject}
-					onClick={handleDeleteMovie(movieObject.imdbID)}
-					key={movieObject.imdbID}
-				/>
-			))}
-		</ul>
-	);
-}
-
-function WatchedMovieItem(props) {
-	const { movieObject, onClick } = props;
-
-	return (
-		<li>
-			<img
-				src={movieObject.poster}
-				alt={`${movieObject.title} poster`}
-			/>
-			<h3>{movieObject.title}</h3>
-			<div>
-				<p>
-					<span>⭐️</span>
-					<span>{movieObject.imdbRating}</span>
-				</p>
-				<p>
-					<span>🌟</span>
-					<span>{movieObject.userRating}</span>
-				</p>
-				<p>
-					<span>⏳</span>
-					<span>{movieObject.runtime} min</span>
-				</p>
-
-				<button
-					className='btn-delete'
-					onClick={onClick}
-				>
-					X
-				</button>
-			</div>
-		</li>
 	);
 }
