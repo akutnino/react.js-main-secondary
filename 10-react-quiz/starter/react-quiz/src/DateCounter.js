@@ -1,34 +1,34 @@
 import { useState } from 'react';
 
-function DateCounter() {
-	const [count, setCount] = useState(0);
-	const [step, setStep] = useState(1);
+export default function DateCounter(props) {
+	const [inputCount, setInputCount] = useState(0);
+	const [inputStep, setInputStep] = useState(1);
 
 	// This mutates the date object.
-	const date = new Date('june 21 2027');
-	date.setDate(date.getDate() + count);
+	const dateObject = new Date(new Date().toDateString());
+	dateObject.setDate(dateObject.getDate() + inputCount);
 
-	const dec = function () {
+	const handleInputDecrease = () => {
 		// setCount((count) => count - 1);
-		setCount((count) => count - step);
+		setInputCount((count) => count - inputStep);
 	};
 
-	const inc = function () {
+	const handleInputIncrease = () => {
 		// setCount((count) => count + 1);
-		setCount((count) => count + step);
+		setInputCount((count) => count + inputStep);
 	};
 
-	const defineCount = function (e) {
-		setCount(Number(e.target.value));
+	const handleDefineCount = (event) => {
+		setInputCount(Number(event.target.value));
 	};
 
-	const defineStep = function (e) {
-		setStep(Number(e.target.value));
+	const handleDefineStep = (event) => {
+		setInputStep(Number(event.target.value));
 	};
 
-	const reset = function () {
-		setCount(0);
-		setStep(1);
+	const handleReset = () => {
+		setInputCount(0);
+		setInputStep(1);
 	};
 
 	return (
@@ -38,27 +38,26 @@ function DateCounter() {
 					type='range'
 					min='0'
 					max='10'
-					value={step}
-					onChange={defineStep}
+					value={inputStep}
+					onChange={handleDefineStep}
 				/>
-				<span>{step}</span>
+				<span>{inputStep}</span>
 			</div>
 
 			<div>
-				<button onClick={dec}>-</button>
+				<button onClick={handleInputDecrease}>-</button>
 				<input
-					value={count}
-					onChange={defineCount}
+					value={inputCount}
+					onChange={handleDefineCount}
 				/>
-				<button onClick={inc}>+</button>
+				<button onClick={handleInputIncrease}>+</button>
 			</div>
 
-			<p>{date.toDateString()}</p>
+			<p>{dateObject.toDateString()}</p>
 
 			<div>
-				<button onClick={reset}>Reset</button>
+				<button onClick={handleReset}>Reset</button>
 			</div>
 		</div>
 	);
 }
-export default DateCounter;
