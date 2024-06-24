@@ -11,6 +11,10 @@ export default function DateCounter(props) {
 	const dateObject = new Date(new Date().toDateString());
 	dateObject.setDate(dateObject.getDate() + inputCount);
 
+	const handleDefineStep = (event) => {
+		setInputStep(Number(event.target.value));
+	};
+
 	const handleInputDecrease = () => {
 		// setCount((count) => count - 1);
 		setInputCount((currentInputCount) => currentInputCount - inputStep);
@@ -23,10 +27,6 @@ export default function DateCounter(props) {
 
 	const handleDefineCount = (event) => {
 		setInputCount(Number(event.target.value));
-	};
-
-	const handleDefineStep = (event) => {
-		setInputStep(Number(event.target.value));
 	};
 
 	const handleReset = () => {
