@@ -1,10 +1,10 @@
 import { useReducer, useState } from 'react';
 
-const reducerFunc = (appState, action) => {};
+const reducerFunc = (currentState, action) => {};
 
 export default function DateCounter(props) {
-	// const [inputCount, setInputCount] = useState(0);
 	const [inputCount, setInputCount] = useReducer(reducerFunc, 0);
+	// const [inputCount, setInputCount] = useState(0);
 	const [inputStep, setInputStep] = useState(1);
 
 	// This mutates the date object.
