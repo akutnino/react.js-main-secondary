@@ -16,12 +16,10 @@ export default function DateCounter(props) {
 	};
 
 	const handleInputDecrease = () => {
-		// setCount((count) => count - 1);
 		setInputCount((currentInputCount) => currentInputCount - inputStep);
 	};
 
 	const handleInputIncrease = () => {
-		// setCount((count) => count + 1);
 		setInputCount((currentInputCount) => currentInputCount + inputStep);
 	};
 
