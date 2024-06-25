@@ -1,35 +1,77 @@
-import { useReducer, useState } from 'react';
+import { useReducer } from 'react';
 
-const reducerFunc = (currentState, action) => {};
+const initialState = {
+	inputStep: 1,
+	inputCount: 0
+};
+
+const dateCounterReducer = (currentState, action) => {
+	switch (action.type) {
+		case 'DefineStep':
+			return {
+				...currentState,
+				inputStep: action.payload
+			};
+
+		case 'Decrease':
+			return {
+				...currentState,
+				inputCount: currentState.inputCount - currentState.inputStep
+			};
+
+		case 'Increase':
+			return {
+				...currentState,
+				inputCount: currentState.inputCount + currentState.inputStep
+			};
+
+		case 'DefineCount':
+			return {
+				...currentState,
+				inputCount: action.payload
+			};
+
+		case 'Reset':
+			return {
+				inputStep: 1,
+				inputCount: 0
+			};
+
+		default:
+			return currentState;
+	}
+};
 
 export default function DateCounter(props) {
-	const [inputCount, setInputCount] = useReducer(reducerFunc, 0);
-	// const [inputCount, setInputCount] = useState(0);
-	const [inputStep, setInputStep] = useState(1);
+	const [state, dispatch] = useReducer(dateCounterReducer, initialState);
 
-	// This mutates the date object.
 	const dateObject = new Date(new Date().toDateString());
-	dateObject.setDate(dateObject.getDate() + inputCount);
+	dateObject.setDate(dateObject.getDate() + state.inputCount);
 
 	const handleDefineStep = (event) => {
-		setInputStep(Number(event.target.value));
+		dispatch({
+			type: 'DefineStep',
+			payload: Number(event.target.value)
+		});
 	};
 
 	const handleInputDecrease = () => {
-		setInputCount((currentInputCount) => currentInputCount - inputStep);
+		dispatch({ type: 'Decrease' });
 	};
 
 	const handleInputIncrease = () => {
-		setInputCount((currentInputCount) => currentInputCount + inputStep);
+		dispatch({ type: 'Increase' });
 	};
 
 	const handleDefineCount = (event) => {
-		setInputCount(Number(event.target.value));
+		dispatch({
+			type: 'DefineCount',
+			payload: Number(event.target.value)
+		});
 	};
 
 	const handleReset = () => {
-		setInputCount(0);
-		setInputStep(1);
+		dispatch({ type: 'Reset' });
 	};
 
 	return (
@@ -37,18 +79,18 @@ export default function DateCounter(props) {
 			<div>
 				<input
 					type='range'
-					min='0'
-					max='10'
-					value={inputStep}
+					min={1}
+					max={10}
+					value={state.inputStep}
 					onChange={handleDefineStep}
 				/>
-				<span>{inputStep}</span>
+				<span>{state.inputStep}</span>
 			</div>
 
 			<div>
 				<button onClick={handleInputDecrease}>-</button>
 				<input
-					value={inputCount}
+					value={state.inputCount}
 					onChange={handleDefineCount}
 				/>
 				<button onClick={handleInputIncrease}>+</button>
