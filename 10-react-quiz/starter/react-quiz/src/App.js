@@ -1,8 +1,34 @@
-import { useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import Header from './Header';
 import Main from './Main';
 
+const initialState = {
+	questions: [],
+	status: 'loading'
+};
+
+const reactQuizReducer = (currentState, action) => {
+	switch (action.type) {
+		case 'dataReceived':
+			return {
+				questions: action.payload,
+				status: 'ready'
+			};
+
+		case 'dataError':
+			return {
+				...currentState,
+				status: 'error'
+			};
+
+		default:
+			return currentState;
+	}
+};
+
 export default function App(props) {
+	const [state, dispatch] = useReducer(reactQuizReducer, initialState);
+
 	useEffect(() => {
 		const fetchQuestions = async () => {
 			try {
@@ -13,8 +39,12 @@ export default function App(props) {
 				if (!response.ok) throw new Error('FETCH REQUEST FAILED');
 
 				const data = await response.json();
-				console.log(data);
+				dispatch({
+					type: 'dataReceived',
+					payload: data
+				});
 			} catch (error) {
+				dispatch({ type: 'dataError' });
 				console.error(error);
 			}
 		};
