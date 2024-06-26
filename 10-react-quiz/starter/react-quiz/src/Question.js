@@ -1,3 +1,22 @@
 export default function Question(props) {
-	return <div>Question</div>;
+	const { questionObject } = props;
+	const { correctOption, id, options, question, points } = questionObject;
+	console.log(questionObject);
+
+	return (
+		<div>
+			<h4>{question}</h4>
+
+			<div className='options'>
+				{options.map((option, index) => (
+					<button
+						className='btn btn-option'
+						key={index}
+					>
+						{option}
+					</button>
+				))}
+			</div>
+		</div>
+	);
 }
