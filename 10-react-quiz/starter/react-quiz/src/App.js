@@ -3,6 +3,7 @@ import Header from './Header';
 import Main from './Main';
 import Loader from './Loader';
 import Error from './Error';
+import StartScreen from './StartScreen';
 
 const initialState = {
 	questions: [],
@@ -19,7 +20,7 @@ const reactQuizReducer = (currentState, action) => {
 
 		case 'dataError':
 			return {
-				...currentState,
+				questions: [],
 				status: 'error'
 			};
 
@@ -31,6 +32,7 @@ const reactQuizReducer = (currentState, action) => {
 export default function App(props) {
 	const [state, dispatch] = useReducer(reactQuizReducer, initialState);
 	const { questions, status } = state;
+	const totalQuestions = questions.length;
 
 	useEffect(() => {
 		const fetchQuestions = async () => {
@@ -60,10 +62,10 @@ export default function App(props) {
 		<div className='app'>
 			<Header />
 
-			<Main className='main'>
+			<Main>
 				{status === 'loading' && <Loader />}
 				{status === 'error' && <Error />}
-				{status === 'ready'}
+				{status === 'ready' && <StartScreen totalQuestions={totalQuestions} />}
 			</Main>
 		</div>
 	);
