@@ -1,6 +1,8 @@
 import { useEffect, useReducer } from 'react';
 import Header from './Header';
 import Main from './Main';
+import Loader from './Loader';
+import Error from './Error';
 
 const initialState = {
 	questions: [],
@@ -28,6 +30,7 @@ const reactQuizReducer = (currentState, action) => {
 
 export default function App(props) {
 	const [state, dispatch] = useReducer(reactQuizReducer, initialState);
+	const { questions, status } = state;
 
 	useEffect(() => {
 		const fetchQuestions = async () => {
@@ -58,8 +61,9 @@ export default function App(props) {
 			<Header />
 
 			<Main className='main'>
-				<p>1/15</p>
-				<p>Question</p>
+				{status === 'loading' && <Loader />}
+				{status === 'error' && <Error />}
+				{status === 'ready'}
 			</Main>
 		</div>
 	);
