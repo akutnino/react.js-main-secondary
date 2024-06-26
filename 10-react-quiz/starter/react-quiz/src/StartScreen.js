@@ -1,5 +1,9 @@
 export default function StartScreen(props) {
-	const { totalQuestions } = props;
+	const { totalQuestions, dispatch } = props;
+
+	const handleStartQuiz = () => {
+		dispatch({ type: 'startQuiz' });
+	};
 
 	return (
 		<div className='start'>
@@ -8,6 +12,7 @@ export default function StartScreen(props) {
 			<button
 				type='button'
 				className='btn btn-ui'
+				onClick={handleStartQuiz}
 			>
 				Let' Start
 			</button>

@@ -4,6 +4,7 @@ import Main from './Main';
 import Loader from './Loader';
 import Error from './Error';
 import StartScreen from './StartScreen';
+import Question from './Question';
 
 const initialState = {
 	questions: [],
@@ -20,8 +21,14 @@ const reactQuizReducer = (currentState, action) => {
 
 		case 'dataError':
 			return {
-				questions: [],
+				...currentState,
 				status: 'error'
+			};
+
+		case 'startQuiz':
+			return {
+				...currentState,
+				status: 'active'
 			};
 
 		default:
@@ -65,7 +72,13 @@ export default function App(props) {
 			<Main>
 				{status === 'loading' && <Loader />}
 				{status === 'error' && <Error />}
-				{status === 'ready' && <StartScreen totalQuestions={totalQuestions} />}
+				{status === 'ready' && (
+					<StartScreen
+						totalQuestions={totalQuestions}
+						dispatch={dispatch}
+					/>
+				)}
+				{status === 'active' && <Question />}
 			</Main>
 		</div>
 	);
