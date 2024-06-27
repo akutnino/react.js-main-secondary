@@ -5,6 +5,7 @@ import Loader from './Loader';
 import Error from './Error';
 import StartScreen from './StartScreen';
 import Question from './Question';
+import NextButton from './NextButton';
 
 const initialState = {
 	questions: [],
@@ -52,9 +53,18 @@ const reactQuizReducer = (currentState, action) => {
 
 			return {
 				questions: currentState.questions,
-				questionIndex: 0,
+				questionIndex: currentState.questionIndex,
 				userAnswer: action.payload,
 				userPoints: updatedPoints,
+				status: 'active'
+			};
+
+		case 'nextQuestion':
+			return {
+				questions: currentState.questions,
+				questionIndex: currentState.questionIndex++,
+				userAnswer: null,
+				userPoints: currentState.userPoints,
 				status: 'active'
 			};
 
@@ -67,6 +77,7 @@ export default function App(props) {
 	const [state, dispatch] = useReducer(reactQuizReducer, initialState);
 	const { questions, questionIndex, userAnswer, userPoints, status } = state;
 	const totalQuestions = questions.length;
+	const isAnswered = userAnswer !== null;
 
 	useEffect(() => {
 		const fetchQuestions = async () => {
@@ -106,11 +117,15 @@ export default function App(props) {
 					/>
 				)}
 				{status === 'active' && (
-					<Question
-						questionObject={questions[questionIndex]}
-						userAnswer={userAnswer}
-						dispatch={dispatch}
-					/>
+					<>
+						<Question
+							questionObject={questions[questionIndex]}
+							userAnswer={userAnswer}
+							dispatch={dispatch}
+						/>
+
+						{isAnswered && <NextButton dispatch={dispatch} />}
+					</>
 				)}
 			</Main>
 		</div>

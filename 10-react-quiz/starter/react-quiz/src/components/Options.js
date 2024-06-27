@@ -12,8 +12,8 @@ export default function Options(props) {
 	return (
 		<div className='options'>
 			{options.map((option, index) => {
-				const correctAnswerStyle = index === correctOption ? 'correct' : 'wrong';
-				const userAnswerStyle = index === userAnswer ? 'answer' : '';
+				const correctAnswerStyle = correctOption === index ? 'correct' : 'wrong';
+				const userAnswerStyle = userAnswer === index ? 'answer' : '';
 				const questionResultStyle = isAnswered ? correctAnswerStyle : '';
 
 				return (
