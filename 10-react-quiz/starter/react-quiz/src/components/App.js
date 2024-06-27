@@ -6,6 +6,7 @@ import Error from './Error';
 import StartScreen from './StartScreen';
 import Question from './Question';
 import NextButton from './NextButton';
+import ProgressBar from './ProgressBar';
 
 const initialState = {
 	questions: [],
@@ -76,6 +77,7 @@ const reactQuizReducer = (currentState, action) => {
 export default function App(props) {
 	const [state, dispatch] = useReducer(reactQuizReducer, initialState);
 	const { questions, questionIndex, userAnswer, userPoints, status } = state;
+	const totalMaxPoints = questions.reduce((acc, curr) => curr.points + acc, 0);
 	const totalQuestions = questions.length;
 	const isAnswered = userAnswer !== null;
 
@@ -118,6 +120,14 @@ export default function App(props) {
 				)}
 				{status === 'active' && (
 					<>
+						<ProgressBar
+							questionIndex={questionIndex}
+							totalQuestions={totalQuestions}
+							userPoints={userPoints}
+							totalMaxPoints={totalMaxPoints}
+							isAnswered={isAnswered}
+						/>
+
 						<Question
 							questionObject={questions[questionIndex]}
 							userAnswer={userAnswer}
