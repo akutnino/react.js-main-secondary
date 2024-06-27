@@ -1,5 +1,6 @@
 export default function Options(props) {
-	const { options } = props;
+	const { questionObject } = props;
+	const { correctOption, id, options, question, points } = questionObject;
 
 	return (
 		<div className='options'>
