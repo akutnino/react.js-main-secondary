@@ -1,17 +1,32 @@
 export default function Options(props) {
-	const { questionObject } = props;
+	const { questionObject, userAnswer, dispatch } = props;
 	const { correctOption, id, options, question, points } = questionObject;
+	const isAnswered = userAnswer !== null;
+
+	const handleAnswer = (answer) => {
+		return () => {
+			dispatch({ type: 'questionAnswered', payload: answer });
+		};
+	};
 
 	return (
 		<div className='options'>
-			{options.map((option) => (
-				<button
-					className='btn btn-option'
-					key={option}
-				>
-					{option}
-				</button>
-			))}
+			{options.map((option, index) => {
+				const correctAnswerStyle = index === correctOption ? 'correct' : 'wrong';
+				const userAnswerStyle = index === userAnswer ? 'answer' : '';
+				const questionResultStyle = isAnswered ? correctAnswerStyle : '';
+
+				return (
+					<button
+						className={`btn btn-option ${userAnswerStyle} ${questionResultStyle} `}
+						onClick={handleAnswer(index)}
+						disabled={isAnswered}
+						key={option}
+					>
+						{option}
+					</button>
+				);
+			})}
 		</div>
 	);
 }

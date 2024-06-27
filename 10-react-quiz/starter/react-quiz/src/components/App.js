@@ -9,6 +9,8 @@ import Question from './Question';
 const initialState = {
 	questions: [],
 	questionIndex: 0,
+	userAnswer: null,
+	userPoints: 0,
 	status: 'loading'
 };
 
@@ -18,6 +20,8 @@ const reactQuizReducer = (currentState, action) => {
 			return {
 				questions: action.payload,
 				questionIndex: 0,
+				userAnswer: null,
+				userPoints: 0,
 				status: 'ready'
 			};
 
@@ -25,6 +29,8 @@ const reactQuizReducer = (currentState, action) => {
 			return {
 				questions: [],
 				questionIndex: 0,
+				userAnswer: null,
+				userPoints: 0,
 				status: 'error'
 			};
 
@@ -32,6 +38,23 @@ const reactQuizReducer = (currentState, action) => {
 			return {
 				questions: currentState.questions,
 				questionIndex: 0,
+				userAnswer: null,
+				userPoints: 0,
+				status: 'active'
+			};
+
+		case 'questionAnswered':
+			const currentQuestion = currentState.questions.at(currentState.questionIndex);
+			const updatedPoints =
+				action.payload === currentQuestion.correctOption
+					? currentState.userPoints + currentQuestion.points
+					: currentState.userPoints;
+
+			return {
+				questions: currentState.questions,
+				questionIndex: 0,
+				userAnswer: action.payload,
+				userPoints: updatedPoints,
 				status: 'active'
 			};
 
@@ -42,7 +65,7 @@ const reactQuizReducer = (currentState, action) => {
 
 export default function App(props) {
 	const [state, dispatch] = useReducer(reactQuizReducer, initialState);
-	const { questions, status, questionIndex } = state;
+	const { questions, questionIndex, userAnswer, userPoints, status } = state;
 	const totalQuestions = questions.length;
 
 	useEffect(() => {
@@ -82,7 +105,13 @@ export default function App(props) {
 						dispatch={dispatch}
 					/>
 				)}
-				{status === 'active' && <Question questionObject={questions[questionIndex]} />}
+				{status === 'active' && (
+					<Question
+						questionObject={questions[questionIndex]}
+						userAnswer={userAnswer}
+						dispatch={dispatch}
+					/>
+				)}
 			</Main>
 		</div>
 	);
