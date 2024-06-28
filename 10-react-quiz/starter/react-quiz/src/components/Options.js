@@ -5,7 +5,10 @@ export default function Options(props) {
 
 	const handleAnswer = (answer) => {
 		return () => {
-			dispatch({ type: 'questionAnswered', payload: answer });
+			dispatch({
+				type: 'questionAnswered',
+				payload: answer
+			});
 		};
 	};
 
