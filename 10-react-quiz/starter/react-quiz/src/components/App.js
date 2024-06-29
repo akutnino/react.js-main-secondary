@@ -11,13 +11,15 @@ import FinishScreen from './FinishScreen';
 import Footer from './Footer';
 import Timer from './Timer';
 
+const SECS_PER_QUESTION = 20;
+
 const initialState = {
 	questions: [],
 	questionIndex: 0,
 	userAnswer: null,
 	userPoints: 0,
 	userHighscore: 0,
-	secondsRemaining: 10,
+	secondsRemaining: null,
 	status: 'loading'
 };
 
@@ -30,7 +32,7 @@ const reactQuizReducer = (currentState, action) => {
 				userAnswer: null,
 				userPoints: 0,
 				userHighscore: currentState.userHighscore,
-				secondsRemaining: 10,
+				secondsRemaining: null,
 				status: 'ready'
 			};
 
@@ -41,7 +43,7 @@ const reactQuizReducer = (currentState, action) => {
 				userAnswer: null,
 				userPoints: 0,
 				userHighscore: 0,
-				secondsRemaining: 10,
+				secondsRemaining: null,
 				status: 'error'
 			};
 
@@ -52,7 +54,7 @@ const reactQuizReducer = (currentState, action) => {
 				userAnswer: null,
 				userPoints: 0,
 				userHighscore: currentState.userHighscore,
-				secondsRemaining: currentState.secondsRemaining,
+				secondsRemaining: currentState.questions.length * SECS_PER_QUESTION,
 				status: 'active'
 			};
 
@@ -96,7 +98,7 @@ const reactQuizReducer = (currentState, action) => {
 				userAnswer: null,
 				userPoints: currentState.userPoints,
 				userHighscore: newUserHighscore,
-				secondsRemaining: 10,
+				secondsRemaining: null,
 				status: 'finish'
 			};
 
@@ -107,7 +109,7 @@ const reactQuizReducer = (currentState, action) => {
 				userAnswer: null,
 				userPoints: 0,
 				userHighscore: currentState.userHighscore,
-				secondsRemaining: 10,
+				secondsRemaining: null,
 				status: 'ready'
 			};
 
