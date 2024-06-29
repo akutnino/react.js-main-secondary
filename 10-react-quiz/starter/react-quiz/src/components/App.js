@@ -7,12 +7,14 @@ import StartScreen from './StartScreen';
 import Question from './Question';
 import NextButton from './NextButton';
 import ProgressBar from './ProgressBar';
+import FinishScreen from './FinishScreen';
 
 const initialState = {
 	questions: [],
 	questionIndex: 0,
 	userAnswer: null,
 	userPoints: 0,
+	userHighscore: 0,
 	status: 'loading'
 };
 
@@ -24,6 +26,7 @@ const reactQuizReducer = (currentState, action) => {
 				questionIndex: 0,
 				userAnswer: null,
 				userPoints: 0,
+				userHighscore: currentState.userHighscore,
 				status: 'ready'
 			};
 
@@ -33,6 +36,7 @@ const reactQuizReducer = (currentState, action) => {
 				questionIndex: 0,
 				userAnswer: null,
 				userPoints: 0,
+				userHighscore: 0,
 				status: 'error'
 			};
 
@@ -42,6 +46,7 @@ const reactQuizReducer = (currentState, action) => {
 				questionIndex: 0,
 				userAnswer: null,
 				userPoints: 0,
+				userHighscore: currentState.userHighscore,
 				status: 'active'
 			};
 
@@ -57,6 +62,7 @@ const reactQuizReducer = (currentState, action) => {
 				questionIndex: currentState.questionIndex,
 				userAnswer: action.payload,
 				userPoints: updatedPoints,
+				userHighscore: currentState.userHighscore,
 				status: 'active'
 			};
 
@@ -66,7 +72,23 @@ const reactQuizReducer = (currentState, action) => {
 				questionIndex: currentState.questionIndex++,
 				userAnswer: null,
 				userPoints: currentState.userPoints,
+				userHighscore: currentState.userHighscore,
 				status: 'active'
+			};
+
+		case 'endQuiz':
+			const newUserHighscore =
+				currentState.userPoints > currentState.userHighscore
+					? currentState.userPoints
+					: currentState.userHighscore;
+
+			return {
+				questions: currentState.questions,
+				questionIndex: 0,
+				userAnswer: null,
+				userPoints: currentState.userPoints,
+				userHighscore: newUserHighscore,
+				status: 'finish'
 			};
 
 		default:
@@ -76,7 +98,8 @@ const reactQuizReducer = (currentState, action) => {
 
 export default function App(props) {
 	const [state, dispatch] = useReducer(reactQuizReducer, initialState);
-	const { questions, questionIndex, userAnswer, userPoints, status } = state;
+	const { questions, questionIndex, userAnswer, userPoints, userHighscore, status } =
+		state;
 	const totalMaxPoints = questions.reduce((acc, curr) => curr.points + acc, 0);
 	const totalQuestions = questions.length;
 	const isAnswered = userAnswer !== null;
@@ -134,8 +157,21 @@ export default function App(props) {
 							dispatch={dispatch}
 						/>
 
-						{isAnswered && <NextButton dispatch={dispatch} />}
+						{isAnswered && (
+							<NextButton
+								totalQuestions={totalQuestions}
+								questionIndex={questionIndex}
+								dispatch={dispatch}
+							/>
+						)}
 					</>
+				)}
+				{status === 'finish' && (
+					<FinishScreen
+						userPoints={userPoints}
+						totalMaxPoints={totalMaxPoints}
+						userHighscore={userHighscore}
+					/>
 				)}
 			</Main>
 		</div>
