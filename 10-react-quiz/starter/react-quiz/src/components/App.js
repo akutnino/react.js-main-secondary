@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Loader from './Loader';
@@ -91,6 +91,16 @@ const reactQuizReducer = (currentState, action) => {
 				status: 'finish'
 			};
 
+		case 'restartQuiz':
+			return {
+				questions: currentState.questions,
+				questionIndex: 0,
+				userAnswer: null,
+				userPoints: 0,
+				userHighscore: currentState.userHighscore,
+				status: 'ready'
+			};
+
 		default:
 			return currentState;
 	}
@@ -171,6 +181,7 @@ export default function App(props) {
 						userPoints={userPoints}
 						totalMaxPoints={totalMaxPoints}
 						userHighscore={userHighscore}
+						dispatch={dispatch}
 					/>
 				)}
 			</Main>
