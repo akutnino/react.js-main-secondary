@@ -8,6 +8,8 @@ import Question from './Question';
 import NextButton from './NextButton';
 import ProgressBar from './ProgressBar';
 import FinishScreen from './FinishScreen';
+import Footer from './Footer';
+import Timer from './Timer';
 
 const initialState = {
 	questions: [],
@@ -15,6 +17,7 @@ const initialState = {
 	userAnswer: null,
 	userPoints: 0,
 	userHighscore: 0,
+	secondsRemaining: 10,
 	status: 'loading'
 };
 
@@ -27,6 +30,7 @@ const reactQuizReducer = (currentState, action) => {
 				userAnswer: null,
 				userPoints: 0,
 				userHighscore: currentState.userHighscore,
+				secondsRemaining: 10,
 				status: 'ready'
 			};
 
@@ -37,6 +41,7 @@ const reactQuizReducer = (currentState, action) => {
 				userAnswer: null,
 				userPoints: 0,
 				userHighscore: 0,
+				secondsRemaining: 10,
 				status: 'error'
 			};
 
@@ -47,6 +52,7 @@ const reactQuizReducer = (currentState, action) => {
 				userAnswer: null,
 				userPoints: 0,
 				userHighscore: currentState.userHighscore,
+				secondsRemaining: currentState.secondsRemaining,
 				status: 'active'
 			};
 
@@ -63,6 +69,7 @@ const reactQuizReducer = (currentState, action) => {
 				userAnswer: action.payload,
 				userPoints: updatedPoints,
 				userHighscore: currentState.userHighscore,
+				secondsRemaining: currentState.secondsRemaining,
 				status: 'active'
 			};
 
@@ -73,6 +80,7 @@ const reactQuizReducer = (currentState, action) => {
 				userAnswer: null,
 				userPoints: currentState.userPoints,
 				userHighscore: currentState.userHighscore,
+				secondsRemaining: currentState.secondsRemaining,
 				status: 'active'
 			};
 
@@ -88,6 +96,7 @@ const reactQuizReducer = (currentState, action) => {
 				userAnswer: null,
 				userPoints: currentState.userPoints,
 				userHighscore: newUserHighscore,
+				secondsRemaining: 10,
 				status: 'finish'
 			};
 
@@ -98,7 +107,19 @@ const reactQuizReducer = (currentState, action) => {
 				userAnswer: null,
 				userPoints: 0,
 				userHighscore: currentState.userHighscore,
+				secondsRemaining: 10,
 				status: 'ready'
+			};
+
+		case 'updateRemainingTime':
+			return {
+				questions: currentState.questions,
+				questionIndex: currentState.questionIndex,
+				userAnswer: currentState.userAnswer,
+				userPoints: currentState.userPoints,
+				userHighscore: currentState.userHighscore,
+				secondsRemaining: currentState.secondsRemaining - 1,
+				status: currentState.status
 			};
 
 		default:
@@ -108,8 +129,15 @@ const reactQuizReducer = (currentState, action) => {
 
 export default function App(props) {
 	const [state, dispatch] = useReducer(reactQuizReducer, initialState);
-	const { questions, questionIndex, userAnswer, userPoints, userHighscore, status } =
-		state;
+	const {
+		questions,
+		questionIndex,
+		userAnswer,
+		userPoints,
+		userHighscore,
+		secondsRemaining,
+		status
+	} = state;
 	const totalMaxPoints = questions.reduce((acc, curr) => curr.points + acc, 0);
 	const totalQuestions = questions.length;
 	const isAnswered = userAnswer !== null;
@@ -167,13 +195,20 @@ export default function App(props) {
 							dispatch={dispatch}
 						/>
 
-						{isAnswered && (
-							<NextButton
-								totalQuestions={totalQuestions}
-								questionIndex={questionIndex}
+						<Footer>
+							<Timer
+								secondsRemaining={secondsRemaining}
 								dispatch={dispatch}
 							/>
-						)}
+
+							{isAnswered && (
+								<NextButton
+									totalQuestions={totalQuestions}
+									questionIndex={questionIndex}
+									dispatch={dispatch}
+								/>
+							)}
+						</Footer>
 					</>
 				)}
 				{status === 'finish' && (
