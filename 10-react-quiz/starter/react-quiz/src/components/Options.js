@@ -1,6 +1,7 @@
 export default function Options(props) {
 	const { questionObject, userAnswer, dispatch } = props;
-	const { correctOption, id, options, question, points } = questionObject;
+	// const { correctOption, id, options, question, points } = questionObject;
+	const { correctOption, options } = questionObject;
 	const isAnswered = userAnswer !== null;
 
 	const handleAnswer = (answer) => {
