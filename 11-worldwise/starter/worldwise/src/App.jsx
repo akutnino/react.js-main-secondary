@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Router } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Homepage from './pages/Homepage';
 import Product from './pages/Product';
 import Pricing from './pages/Pricing';
@@ -7,7 +7,7 @@ import PageNotFound from './pages/PageNotFound';
 export default function App() {
 	return (
 		<BrowserRouter>
-			<Router>
+			<Routes>
 				<Route
 					path='/'
 					element={<Homepage />}
@@ -24,7 +24,7 @@ export default function App() {
 					path='*'
 					element={<PageNotFound />}
 				/>
-			</Router>
+			</Routes>
 		</BrowserRouter>
 	);
 }
