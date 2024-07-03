@@ -1,3 +1,30 @@
+import { BrowserRouter, Route, Router } from 'react-router-dom';
+import Homepage from './pages/Homepage';
+import Product from './pages/Product';
+import Pricing from './pages/Pricing';
+import PageNotFound from './pages/PageNotFound';
+
 export default function App() {
-	return <div>WorldWise</div>;
+	return (
+		<BrowserRouter>
+			<Router>
+				<Route
+					path='/'
+					element={<Homepage />}
+				/>
+				<Route
+					path='product'
+					element={<Product />}
+				/>
+				<Route
+					path='pricing'
+					element={<Pricing />}
+				/>
+				<Route
+					path='*'
+					element={<PageNotFound />}
+				/>
+			</Router>
+		</BrowserRouter>
+	);
 }
