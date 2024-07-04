@@ -1,17 +1,33 @@
 import { NavLink } from 'react-router-dom';
+import styles from './PageNav.module.scss';
 
 export default function PageNav() {
 	return (
-		<nav>
+		<nav className={styles.nav}>
 			<ul>
 				<li>
-					<NavLink to={'/'}>Home</NavLink>
+					<NavLink
+						to={'/'}
+						className={styles.navLink}
+					>
+						Home
+					</NavLink>
 				</li>
 				<li>
-					<NavLink to={'/product'}>Product</NavLink>
+					<NavLink
+						to={'/product'}
+						className={styles.navLink}
+					>
+						Product
+					</NavLink>
 				</li>
 				<li>
-					<NavLink to={'/pricing'}>Pricing</NavLink>
+					<NavLink
+						to={'/pricing'}
+						className={styles.navLink}
+					>
+						Pricing
+					</NavLink>
 				</li>
 			</ul>
 		</nav>
