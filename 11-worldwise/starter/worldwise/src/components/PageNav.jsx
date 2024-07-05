@@ -6,28 +6,16 @@ export default function PageNav() {
 		<nav className={styles.nav}>
 			<ul>
 				<li>
-					<NavLink
-						to={'/'}
-						className={styles.navLink}
-					>
-						Home
-					</NavLink>
+					<NavLink to={'/'}>Home</NavLink>
 				</li>
 				<li>
-					<NavLink
-						to={'/product'}
-						className={styles.navLink}
-					>
-						Product
-					</NavLink>
+					<NavLink to={'/product'}>Product</NavLink>
 				</li>
 				<li>
-					<NavLink
-						to={'/pricing'}
-						className={styles.navLink}
-					>
-						Pricing
-					</NavLink>
+					<NavLink to={'/pricing'}>Pricing</NavLink>
+				</li>
+				<li>
+					<NavLink to={'/login'}>Login</NavLink>
 				</li>
 			</ul>
 		</nav>
