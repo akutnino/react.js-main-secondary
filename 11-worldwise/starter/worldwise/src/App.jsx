@@ -4,6 +4,7 @@ import Product from './pages/Product';
 import Pricing from './pages/Pricing';
 import PageNotFound from './pages/PageNotFound';
 import AppLayout from './pages/AppLayout';
+import Login from './pages/Login';
 
 export default function App() {
 	return (
@@ -28,6 +29,10 @@ export default function App() {
 				<Route
 					path='app'
 					element={<AppLayout />}
+				/>
+				<Route
+					path='login'
+					element={<Login />}
 				/>
 			</Routes>
 		</BrowserRouter>
