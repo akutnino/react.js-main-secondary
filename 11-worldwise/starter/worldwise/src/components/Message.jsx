@@ -1,4 +1,4 @@
-import styles from './Message.module.scss';
+import styles from '../styles/Message.module.scss';
 
 function Message({ message }) {
 	return (

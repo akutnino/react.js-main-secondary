@@ -1,4 +1,4 @@
-import styles from './CountryItem.module.scss';
+import styles from '../styles/CountryItem.module.scss';
 
 function CountryItem({ country }) {
 	return (

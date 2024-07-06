@@ -1,4 +1,4 @@
-import styles from './City.module.scss';
+import styles from '../styles/City.module.scss';
 
 const formatDate = (date) =>
 	new Intl.DateTimeFormat('en', {

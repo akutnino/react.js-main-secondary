@@ -1,12 +1,15 @@
-import styles from './Logo.module.scss';
+import { Link } from 'react-router-dom';
+import styles from '../styles/Logo.module.scss';
 
 function Logo() {
 	return (
-		<img
-			src='/logo.png'
-			alt='WorldWise logo'
-			className={styles.logo}
-		/>
+		<Link to={'/'}>
+			<img
+				src='/logo.png'
+				alt='WorldWise logo'
+				className={styles.logo}
+			/>
+		</Link>
 	);
 }
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import styles from './Form.module.scss';
+import styles from '../styles/Form.module.scss';
 
 export function convertToEmoji(countryCode) {
 	const codePoints = countryCode
