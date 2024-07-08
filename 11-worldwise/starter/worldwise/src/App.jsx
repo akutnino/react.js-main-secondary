@@ -23,16 +23,16 @@ export default function App() {
 					element={<Pricing />}
 				/>
 				<Route
-					path='*'
-					element={<PageNotFound />}
+					path='login'
+					element={<Login />}
 				/>
 				<Route
 					path='app'
 					element={<AppLayout />}
 				/>
 				<Route
-					path='login'
-					element={<Login />}
+					path='*'
+					element={<PageNotFound />}
 				/>
 			</Routes>
 		</BrowserRouter>
