@@ -5,6 +5,7 @@ import Pricing from './pages/Pricing';
 import PageNotFound from './pages/PageNotFound';
 import AppLayout from './pages/AppLayout';
 import Login from './pages/Login';
+import CityList from './components/CityList';
 
 export default function App() {
 	return (
@@ -32,11 +33,11 @@ export default function App() {
 				>
 					<Route
 						index
-						element={<p>List of Cities Element</p>}
+						element={<CityList />}
 					/>
 					<Route
 						path='cities'
-						element={<p>List of Cities Element</p>}
+						element={<CityList />}
 					/>
 					<Route
 						path='countries'
