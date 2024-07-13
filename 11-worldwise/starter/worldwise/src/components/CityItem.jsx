@@ -32,13 +32,13 @@ CityItem.propTypes = {
 
 export default function CityItem(props) {
 	const { city } = props;
-	const { cityName, emoji, date, id } = city;
+	const { cityName, emoji, date, id, position } = city;
 
 	return (
 		<li>
 			<Link
 				className={styles.cityItem}
-				to={`${id}`}
+				to={`${id}?lat=${position.lat}&lng=${position.lng}`}
 			>
 				<span className={styles.emoji}>{flagcodeEmoji(emoji)}</span>
 				<h3 className={styles.name}>{cityName}</h3>
