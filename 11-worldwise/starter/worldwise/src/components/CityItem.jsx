@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import styles from './../styles/CityItem.module.scss';
+import { Link } from 'react-router-dom';
 
 const flagcodeEmoji = (flagcode) => {
 	const firstCharFlagUnicode = 127462;
@@ -31,19 +32,24 @@ CityItem.propTypes = {
 
 export default function CityItem(props) {
 	const { city } = props;
-	const { cityName, emoji, date } = city;
+	const { cityName, emoji, date, id } = city;
 
 	return (
-		<li className={styles.cityItem}>
-			<span className={styles.emoji}>{flagcodeEmoji(emoji)}</span>
-			<h3 className={styles.name}>{cityName}</h3>
-			<time className={styles.data}>{formatDate(date)}</time>
-			<button
-				className={styles.deleteBtn}
-				type='button'
+		<li>
+			<Link
+				className={styles.cityItem}
+				to={`${id}`}
 			>
-				&times;
-			</button>
+				<span className={styles.emoji}>{flagcodeEmoji(emoji)}</span>
+				<h3 className={styles.name}>{cityName}</h3>
+				<time className={styles.data}>{formatDate(date)}</time>
+				<button
+					className={styles.deleteBtn}
+					type='button'
+				>
+					&times;
+				</button>
+			</Link>
 		</li>
 	);
 }
