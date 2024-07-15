@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import Homepage from './pages/Homepage';
@@ -71,7 +71,12 @@ export default function App() {
 				>
 					<Route
 						index
-						element={<CityList citiesArray={citiesArray} />}
+						element={
+							<Navigate
+								replace
+								to={'cities'}
+							/>
+						}
 					/>
 					<Route
 						path='cities'
