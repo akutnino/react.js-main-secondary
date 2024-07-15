@@ -1,5 +1,6 @@
 import styles from './../styles/CityList.module.scss';
 import PropTypes from 'prop-types';
+
 import CityItem from './CityItem';
 import Message from './Message';
 

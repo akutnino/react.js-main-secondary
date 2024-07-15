@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import styles from './../styles/Sidebar.module.scss';
+
 import Logo from './Logo';
 import AppNav from './AppNav';
 import PropTypes from 'prop-types';

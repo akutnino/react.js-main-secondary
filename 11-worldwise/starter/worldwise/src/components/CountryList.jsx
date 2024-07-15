@@ -9,6 +9,7 @@ CountryList.propTypes = {
 
 export default function CountryList(props) {
 	const { citiesArray } = props;
+
 	const countriesArray = citiesArray.reduce((outputArray, currentObject) => {
 		const accumulator = outputArray.map((object) => Object.entries(object).flat()).flat();
 
