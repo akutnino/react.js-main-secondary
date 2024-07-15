@@ -18,13 +18,25 @@ function Form() {
 	const [date, setDate] = useState(new Date());
 	const [notes, setNotes] = useState('');
 
+	const handleCityInput = (event) => {
+		setCityName(event.target.value);
+	};
+
+	const handleDateInput = (event) => {
+		setDate(event.target.value);
+	};
+
+	const handleNoteInput = (event) => {
+		setNotes(event.target.value);
+	};
+
 	return (
 		<form className={styles.form}>
 			<div className={styles.row}>
 				<label htmlFor='cityName'>City name</label>
 				<input
 					id='cityName'
-					onChange={(e) => setCityName(e.target.value)}
+					onChange={handleCityInput}
 					value={cityName}
 				/>
 				{/* <span className={styles.flag}>{emoji}</span> */}
@@ -34,7 +46,7 @@ function Form() {
 				<label htmlFor='date'>When did you go to {cityName}?</label>
 				<input
 					id='date'
-					onChange={(e) => setDate(e.target.value)}
+					onChange={handleDateInput}
 					value={date}
 				/>
 			</div>
@@ -43,7 +55,7 @@ function Form() {
 				<label htmlFor='notes'>Notes about your trip to {cityName}</label>
 				<textarea
 					id='notes'
-					onChange={(e) => setNotes(e.target.value)}
+					onChange={handleNoteInput}
 					value={notes}
 				/>
 			</div>
