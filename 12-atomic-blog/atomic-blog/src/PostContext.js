@@ -1,3 +1,52 @@
-function PostContext(props) {
-	return;
+import { createContext, useState } from 'react';
+import { faker } from '@faker-js/faker';
+
+function createRandomPost() {
+	return {
+		title: `${faker.hacker.adjective()} ${faker.hacker.noun()}`,
+		body: faker.hacker.phrase()
+	};
 }
+
+const PostContext = createContext();
+
+function PostProvider(props) {
+	const { children } = props;
+
+	const [posts, setPosts] = useState(() =>
+		Array.from(Array(30), () => createRandomPost())
+	);
+	const [searchQuery, setSearchQuery] = useState('');
+
+	// Derived state. These are the posts that will actually be displayed
+	const searchedPosts =
+		searchQuery.length > 0
+			? posts.filter((post) =>
+					`${post.title} ${post.body}`.toLowerCase().includes(searchQuery.toLowerCase())
+			  )
+			: posts;
+
+	const handleAddPost = (post) => {
+		setPosts((posts) => [post, ...posts]);
+	};
+
+	const handleClearPosts = () => {
+		setPosts([]);
+	};
+
+	return (
+		<PostContext.Provider
+			value={{
+				posts: searchedPosts,
+				onAddPost: handleAddPost,
+				onClearPosts: handleClearPosts,
+				searchQuery,
+				setSearchQuery
+			}}
+		>
+			{children}
+		</PostContext.Provider>
+	);
+}
+
+export { PostProvider, PostContext, createRandomPost };
