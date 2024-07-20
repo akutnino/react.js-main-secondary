@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { CitiesProvider } from './context/CitiesContext';
 
 import Homepage from './pages/Homepage';
 import Product from './pages/Product';
@@ -13,93 +13,62 @@ import City from './components/City';
 import Form from './components/Form';
 
 export default function App() {
-	const [citiesArray, setCitiesArray] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-
-	useEffect(() => {
-		const controller = new AbortController();
-
-		const fetchCities = async () => {
-			try {
-				setIsLoading(true);
-
-				const fetchURL = `http://localhost:5000/cities`;
-				const fetchOptions = { signal: controller.signal };
-
-				const response = await fetch(fetchURL, fetchOptions);
-				if (!response.ok) throw new Error('FETCH ATTEMPT FAILED');
-
-				const data = await response.json();
-				setCitiesArray(data);
-			} catch (error) {
-				if (error.name !== 'AbortError') {
-					console.log({ error });
-				}
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
-		fetchCities();
-		return () => {
-			controller.abort();
-		};
-	}, []);
-
 	return (
-		<BrowserRouter>
-			<Routes>
-				<Route
-					path='/'
-					element={<Homepage />}
-				/>
-				<Route
-					path='product'
-					element={<Product />}
-				/>
-				<Route
-					path='pricing'
-					element={<Pricing />}
-				/>
-				<Route
-					path='login'
-					element={<Login />}
-				/>
-				<Route
-					path='app'
-					element={<AppLayout isLoading={isLoading} />}
-				>
+		<CitiesProvider>
+			<BrowserRouter>
+				<Routes>
 					<Route
-						index
-						element={
-							<Navigate
-								replace
-								to={'cities'}
-							/>
-						}
+						path='/'
+						element={<Homepage />}
 					/>
 					<Route
-						path='cities'
-						element={<CityList citiesArray={citiesArray} />}
+						path='product'
+						element={<Product />}
 					/>
 					<Route
-						path='cities/:id'
-						element={<City />}
+						path='pricing'
+						element={<Pricing />}
 					/>
 					<Route
-						path='countries'
-						element={<CountryList citiesArray={citiesArray} />}
+						path='login'
+						element={<Login />}
 					/>
 					<Route
-						path='form'
-						element={<Form />}
+						path='app'
+						element={<AppLayout />}
+					>
+						<Route
+							index
+							element={
+								<Navigate
+									replace
+									to={'cities'}
+								/>
+							}
+						/>
+						<Route
+							path='cities'
+							element={<CityList />}
+						/>
+						<Route
+							path='cities/:id'
+							element={<City />}
+						/>
+						<Route
+							path='countries'
+							element={<CountryList />}
+						/>
+						<Route
+							path='form'
+							element={<Form />}
+						/>
+					</Route>
+					<Route
+						path='*'
+						element={<PageNotFound />}
 					/>
-				</Route>
-				<Route
-					path='*'
-					element={<PageNotFound />}
-				/>
-			</Routes>
-		</BrowserRouter>
+				</Routes>
+			</BrowserRouter>
+		</CitiesProvider>
 	);
 }
